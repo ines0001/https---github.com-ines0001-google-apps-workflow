@@ -1,0 +1,207 @@
+
+
+<form id="form_page1" class="well"  >
+        
+       <!-- CLIENT/PROJET --> 
+       <div class="clearfix form-group ">
+       <section class="col-md-6 ">
+         <label class="control-label h4" data-toggle="tooltip" data-placement="top" title="Les champs cerclés de rouge sont obligatoires">*Client:</label>
+         <div class="">
+           <input id="client" type="text" class="form-control " placeholder="Saisir un nom" style='text-transform:uppercase' required>
+         </div>    
+       </section>
+       
+       <section class="col-xs-12 col-md-6 ">
+         <label class="control-label h4" data-toggle="tooltip" data-placement="top" title="Les champs cerclés de rouge sont obligatoires">*Projet/AO:</label>
+         <div class="">
+           <input id="ao" type="text" class="form-control" placeholder="Saisir un nom de dossier" style='text-transform:uppercase' required>   
+         </div>
+       </section>
+       
+       </div>
+       
+        <!-- CONTEXTE/ENJEUX --> 
+        <div class="clearfix ">
+        <section class="col-xs-12 col-md-6">
+           <label class="control-label">*Contexte:</label>
+           <div>
+             <textarea id="contexte" type="textarea" class="form-control" rows="5" required></textarea>
+           </div>
+           <small class="help-block">Détailler le contexte de la demande</small>
+        
+        </section>
+        <section class="col-md-6">
+           <label class="control-label">Enjeux:</label>
+           <textarea id="enjeux" type="textarea" class="form-control" rows="5"></textarea>
+           <small class="help-block">Lister au minimum 3 enjeux clés</small>
+        
+        </section>
+        </div>
+        
+        <!-- UNIT  / BUDGET / DATE LIMITE REMONSE / INDICE CONFIANCE-->
+        <div class="clearfix form-group">
+        <!-- PRACTICE -->
+        <section class="col-md-3">
+           <label class="control-label"  data-toggle="tooltip" data-placement="top" title="La practice détermine la Unit qui sera ciblée">Practice:</label>
+           <select id="practice" class="form-control" >
+           </select>
+           
+           
+        </section>
+        <!-- UNIT -->
+        <section class="col-md-3">
+           <label class="control-label" data-toggle="tooltip" data-placement="top" title="Vous pouvez également cibler la Unit directement sans passer par la Practice">*Unit pressentie:</label>
+           <div>
+             <select id="unit" class="form-control" required>
+             </select>
+           </div>
+        </section>
+        <!-- DATE -->
+        <section class="col-md-4">
+           <label class="control-label" >*Date limite de réponse:</label>
+           <label class="input-group date">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            <input id="date" type="text" class="form-control" placeholder="choisir une date" required>
+           </label>
+           
+        </section>
+        <!-- INDICE CONFIANCE -->
+        <section class="col-md-2">
+           <label class="control-label" >Confiance:</label>
+           
+           <select id="indice" class="form-control">
+             <option><a href="#">très bon</a></option>
+             <option><a href="#">bon</a></option>
+             <option><a href="#">moyen</a></option>
+             <option><a href="#">mauvais</a></option>
+             
+            </select>
+           
+        </section>
+        
+        </div>
+        
+        <!-- Ligne Budget et Techno-->
+        <div class="clearfix form-group">
+          <section class="col-md-3">
+            <label class="control-label" data-toggle="tooltip" data-placement="top" title="Devise en €" >*Budget:</label>
+            <div class="input-group">
+              <input id="budget" name="" class="form-control" placeholder="Ex: 500 000" type="text" data-thousands=" " data-precision="0" data-suffix= ' €' required>
+              <span class="input-group-addon" ><b>€</b></span>
+            
+            </div>
+          </section>
+          <section class="col-md-3 ">
+            <label class="control-label" data-toggle="tooltip" data-placement="top" title="Indiquer la techno principale du dossier" >*Techno principale:</label>
+            <div>
+              <select id="techno" class="form-control" required></select>
+            </div>
+          </section>
+          
+          <section id="section-techno-autre" class="col-md-3 hide" >
+            <label class="control-label" data-toggle="tooltip" data-placement="top" title="Saisir une techno autre">*Techno autre:</label>
+            <div>
+              <input id="techno-autre" type="text" class="form-control" required disabled>
+            </div>
+          </section>
+          
+        </div>
+        
+        
+        <!-- CRITERE MAJEUR / ORIGINE DE L AO -->
+        <div class="clearfix ">
+        <!-- CRITERE-->
+        <section class="col-md-6">
+          <label class="control-label">Critères majeurs:</label>
+          <textarea id="critere" type="textarea" class="form-control" rows="4"></textarea>
+          <small class="help-block"></small>
+        </section>
+        <!-- ORIGINE-->
+        <section class="col-md-6">
+          <label class="control-label">Origine de l'AO:</label>
+          <textarea id="origine" type="textarea" class="form-control" rows="4"></textarea>
+          <small class="help-block"></small>
+        </section>
+        
+        </div>
+      
+        <!-- Pourquoi SQLI -->
+        <div class="clearfix ">
+        <section class="col-md-12">
+           <label class="control-label">Pourquoi SQLI:</label>
+           <textarea id="pourquoi" type="textarea" class="form-control" rows="4"></textarea>
+           <small class="help-block">Expliquez brièvement nos points forts pour cette réponse</small>
+        </section>
+        </div>
+    
+        <!-- LES PARTENAIRES / CONCURRENTS -->
+        <div class="clearfix ">
+        
+        <!-- Partenaires -->
+        <section id="partenaires" class="col-md-6">
+            <textarea id="partenaires" type="textarea" class="form-control" style="display:none"></textarea>
+            <label class="control-label">Partenaires externes:</label>
+             <ul name="ul_partenaires" class="list-group">
+              <div id="add_partenaire">
+               <li style="list-style-type: none" >
+                 <div class="input-group">
+                   <span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span>
+                   <input id="partenaire" name="" class="form-control" placeholder="nom du partenaire" type="text" >
+                   <span id="btn_add" class="input-group-addon" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+                  </div>
+               </li>
+              </div>
+            </ul>
+            <!--button id="btn_add" type="button" class="btn btn-default btn-sm pull-right">Ajouter</button-->
+          
+          
+        </section>
+        <!-- Concurrents -->
+        <section id="concurrents" class="col-md-6">
+          <textarea id="concurrents" type="textarea" class="form-control" style="display:none"></textarea>
+          <label class="control-label">Liste des concurrents:</label>
+            <ul class="list-group ">
+              <div id="add_concurrent">
+              <li style="list-style-type: none" >
+                 <div class="input-group">
+                 <span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span>
+                 <input id="concurrent" name="" class="form-control" placeholder="nom du concurrent" type="text" >
+                 <span id="btn_add_c" class="input-group-addon" ><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+                 </div>
+              </li>
+              </div>
+            </ul>
+            
+          
+        </section>
+        
+        </div> <!-- form-group -->
+       
+        <!-- CODE CRM / PJ -->
+        <div class="clearfix ">
+        <!-- code CRM -->
+        <section class="col-md-6">
+          <label class="control-label" data-toggle="tooltip" data-placement="top" title="Respecter le format de saisie. Ex:15-56AZER-56TU">*CRM:</label>
+          <div class="input-group">
+                 <span class="input-group-addon"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span></span>
+                 <input id="crm" name="" class="form-control" placeholder="Code" type="text" style='text-transform:uppercase' required>
+          </div>
+        </section>
+        
+        <!-- ici replace section input file-->
+        
+        
+        </div>
+        
+       
+       
+       
+       <!--/div-->  <!-- End div alert-block alert-danger -->
+       
+       <div class="clearfix ">
+         <section class="col-md-12">
+            <button id="btn_next" class="pull-right btn btn-primary" type="submit">Suivant<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> </button>
+         </section>
+       </div>
+       
+</form>  <!--Fin du Formulaire 1 -->

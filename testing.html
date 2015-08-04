@@ -1,0 +1,130 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+<style>
+
+
+
+
+
+[class*="col-"] {
+ background-color: lightgreen;
+ border: 1px solid black;
+ border-radius: 6px;
+ <!--line-height: 40px;-->
+ 
+
+}
+
+.text_link{
+     position: absolute;
+     padding: 30px 30px 30px 20px;
+     color: black;
+   }
+
+</style>
+
+<body >
+<div class="container">  
+  <div class="row ">
+        <div class=" col-md-8">
+        
+              <div id="select_response" class="" style="display:true" data-param_type="">
+                  
+                  <div class="col-md-4" data-val="true">
+                   <div class="thumbnail">
+                    <div class="caption ">
+                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                     <p class="text-uppercase hidden-xs hidden-sm">Ma Unit prend en charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <input data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="True">
+                    </div>
+                   </div>
+                  </div>
+                  
+                  <div class="col-md-4" data-val="false">
+                   <div class="thumbnail ">
+                    <div class="caption">
+                     <span class="glyphicon glyphicon-random " aria-hidden="true"></span>
+                     <p class="text-uppercase">Je redirige vers une autre Unit</p>
+                     <input   data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="False">
+                    </div>
+                   </div>
+                  </div>
+                  
+                  <div class="col-md-4"  data-val="other">
+                   <div class="thumbnail">
+                    <div class="caption ">
+                     <span class="glyphicon glyphicon-user " aria-hidden="true"></span>
+                     <p class="text-uppercase">Je redirige vers un collaborateur</p>
+                     <input  data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="Other">
+                    </div>
+                   </div>
+                  </div>
+               
+              </div>
+          </div> <!-- End class class="col-md-offset-2 col-md-8" -->
+       </div>  <!-- End row -->
+       
+       <div class="row">
+      <div class="col-md-offset-3 col-md-7">
+       <!--div class="col-md-11"-->
+         <a href="<?=ScriptApp.getService().getUrl() +'?page=new'?>" target="_blank">
+          <div style="background-color: lightgrey; ">
+            <img src="https://raw.githubusercontent.com/eremysqli/pp9web/master/images/pp9-web-formulaire.png" style="width:390px;">
+         
+       
+            <span class="text_link">
+              <h1><b>Déclarer une AVV</b></h1>
+              Pour cela rien de plus simple. <br/>Votre demande s'intégrera ainsi automatiquement dans le workflow de suivi.
+         
+            </span>
+            
+          </div>
+        </a>
+       <!--/div-->
+      </div>
+    
+     
+    </div> <!--div row--> 
+ 
+</div> 
+
+<button type="submit" id="myButton" data-toggle="button" data-loading-text="Loading..." class="pull-right btn btn-primary" aria-pressed="false" >Envoyer sur paris.avv&nbsp;<span class="glyphicon glyphicon-share-alt"></span></button>               
+
+
+ 
+
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script>
+// PARTIE JQUERY
+$(function(){
+
+$('.ticker').css('padding-right',$('.ticker-wrap').parent().width())
+
+// Alimentation de la liste des technos
+/*
+google.script.run.withSuccessHandler(function(values){
+                    var out='';
+                    $.each(values,function(index,value){out+='<div class="ticker__item">'+value+'</div>'})
+                    $('.ticker').append(out)
+                    
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Informations flash');
+*/
+
+
+  
+   $('#myButton').on('click', function () {
+    var $btn = $(this).button('toggle')
+    // business logic...
+    //$btn.button('reset')
+  })
+
+
+})
+</script>
+ 

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<meta name="google-site-verification" content="YyJGIV3p5TTgJUC1qaifBbeQNdWCfqz8bdRtwY87EnA" />
+<!--?!= include('bootstrap_block'); ?-->
+<!-- Appel de l'api google drive -->
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/css/custom-theme/jquery-ui-1.9.2.custom.css">
+                             
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+
+<style>
+ body{ 
+    
+    padding-top: 70px;
+    padding-bottom: 70px;
+    }
+ .form-control{    
+    
+    z-index:1 !important;
+ }
+ 
+ .alert.email{
+   padding: 4px;
+   margin-bottom : 2px;
+ 
+ }
+ 
+ .pp9-police{
+  
+   font-weight: bold;
+   font-family: 'Lucida Caligraphy'; font-size:13pt;
+   text-align: center;
+ 
+ }
+ .pp9-border-plein{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 1px solid white; 
+   color: black;
+   padding: 2px 6px 1px 6px;
+   background: white;
+   margin-right: 1px;
+   
+ }
+ .pp9-border-creux{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 3px solid white; 
+   
+   padding: 1px 6px 1px 6px;
+   
+   margin-right: 1px;
+   
+ }
+</style>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+        <img alt="Brand" style="background-color: white;" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+    </div>
+    <p class="navbar-brand navbar-nav">
+            <span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-creux">9</span><span class="pp9-police">{WEB}</span>
+    </p>
+    <p class="navbar-brand navbar-nav"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+    
+      <span class="navbar-brand navbar-nav navbar-right">Formulaire de suivi d'un nouvel appel d'offre : <b>INITIALISATION AVV </b></span>
+     
+    </div><!-- /.navbar-collapse -->
+  
+</div>
+
+<div class="container">  
+<div id="success" class="alert alert-success" role="alert" style="display:none"></div>
+<div id="error" class="alert alert-warning" role="alert" style="display:none"></div>
+
+<div class="row">
+<div class="col-md-offset-2 col-md-6">
+
+<div class="row">
+   <fieldset>
+      <form id="form_other" class="form-horizontal" style="display:true"  > <!--form-horizontal-->
+  
+                 <?var ref=reference;?>
+                 <div class="form-group" style="display:true" >
+                   <label class="col-sm-3 control-label" required data-toggle="tooltip" data-placement="left" title="Saisir un nom de client unique.Une aide contextuel affiche les répertoires existants via les premières lettres tapées.">Dossier client à créer</label>
+                   <div class="col-md-9">
+                       <input id="drive-client" class="ui-autocomplete-input form-control" type="text" style="display:true" required>
+                       <small id="client" class="help-block"></small>
+                   </div>
+                 </div>
+                 
+                 <div class="form-group" style="display:true" >
+                   <label class="col-sm-3 control-label" required data-toggle="tooltip" data-placement="left" title="Saisir un nom de dossier unique.Une aide contextuel affiche les répertoires existants associés au client.">Sous dossier client à créer</label>
+                   <div class="col-md-9">
+                       <input id="drive-dossier" class="form-control" type="text" style="display:true" required>
+                       <small id="dossier" class="help-block"></small>
+                   </div>
+                 </div>
+                 
+                 <div class="form-group" style="display:true">
+                   <div class="col-md-offset-3 col-md-9 ">
+                      <div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1" required data-toggle="tooltip" data-placement="left" title="Format dossier créé sous Google Drive"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span></span>
+                       <label id="folder"  class="form-control" ></label>
+                       
+                      </div>
+                      <small class="help-block"></small>
+                   </div>
+                 </div>
+                
+                                  
+                 <div class="form-group">
+                   <label class="col-sm-12 col-md-3 control-label" for="">Groupe de partage:</label>
+                   <div class=" col-md-9">
+                     <div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+                       <input id="mailing" type="text" class="form-control" placeholder="login@sqli.com" pattern="^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}">
+                       <span class="input-group-btn">
+                        <button id="partage" class="btn btn-default" type="button">Partage</button>
+                       </span>
+                     </div>
+                     <span id="error-mail" class="label label-warning"></span>
+                     <small class="help-block">liste de partage :</small>
+                     <ul id="groupe_mail" class="list-group col-md-9"></ul>
+                     
+                   </div>
+                 </div>
+                 
+                 <div id="warning" class="alert alert-info alert-dismissible fade in" role="alert" style="display:none">
+                   <div id="message"></div>
+                 </div>
+                 
+                
+                <div class="alert alert-warning alert-dismissible fade in" role="alert" >
+                  <h4 >Attention!</h4>
+                  <p>A partir de cette étape vous allez initialiser l'arborescence de travail pour la phase d'avant-vente. Merci de confirmer cette action</p>
+                  <p id="avancement"></p>
+                  <p>
+                  <button type="submit" class="btn btn-danger" data-copy-text="Copie en cours..." data-end-text="Copie terminée !">Créer l'arborescence</button>
+                  
+                  </p>
+                </div>
+               
+            
+     </form> <!--End Form Unit redispatch -->
+   </fieldset>    
+
+                  
+</div>
+</div>
+</div>	
+</body>
+			  
+<!-- Latest compiled and minified JavaScript -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/js/jquery-ui-1.10.0.custom.min.js"></script>
+<script>
+/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+$.widget.bridge('uibutton', $.ui.button);
+$.widget.bridge('uitooltip', $.ui.tooltip);
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+<script>
+$(function(){
+  console.log('Ready! : %s', $.format.date(new Date(), 'yyyyMMdd'));
+  $('fieldset').hide();
+  
+  $('[data-toggle="tooltip"]').tooltip();
+  
+  $('input[required],textarea[required],select[required]').each(function(index) {  
+     
+     //$(this).removeAttr('required');
+    $(this).parent().addClass('has-error');
+    })
+  
+  $('button[type="submit"]').attr('disabled','disabled');
+  
+  $('ul#groupe_mail').on('click', '#btn_del' , function(){
+     console.log($(this));
+     $(this).parent().parent().remove();
+     });
+  
+  
+  google.script.run
+       .withSuccessHandler(function(value){ 
+         $('form #drive-dossier').attr('placeholder',value.dossier+' (merci de modifier)');
+         $('form #drive-client').attr('placeholder',value.client+' (merci de modifier)');
+       
+         add_mailing('Le Responsable de Proposition',value.rp);
+         add_mailing('Le Manager de Unit',value.manager);
+         add_mailing('Le Commercial',value.sale);
+         $('[data-toggle="tooltip"]').tooltip();
+         /*\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\
+         Vérifier le statut du dossier
+         SI statut<>GO alors Avertissement
+         SINON on active le bouton de création
+         \/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\*/
+         if(value.state!='GO'){
+               $('#error').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><b>  Information<p>La création de l\'arborescence avant-vente nécessite un passage du dossier au statut "<i><b>GO</b></i>"</p></b>');
+               $('#error').show();}
+         else{ $('fieldset').show();$('button[type="submit"]').removeAttr('disabled');}
+       })
+       .withFailureHandler(function(e){$('#error').html('<h1>Erreur!</h1><br>'+e);$('#error').show();})
+       .getInfoGeneric(  <?=reference?> );
+  
+  
+  
+  
+  google.script.run
+       .withSuccessHandler(function(tags){ 
+         $("#drive-client").autocomplete({
+           source: function( request, response ) {
+              var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+              response( $.grep( tags, function( item ){
+              return matcher.test( item );
+              }) );
+           }
+           
+          });
+        })
+       .withFailureHandler(function(e){$('#error').html('<h1>Erreur!</h1><br>'+e);$('#error').show();})
+       .get_drive_all_client();
+  
+ 
+  
+  
+  $('#partage').click(function(){
+    $('#error-mail').html('');
+    if( CheckEmail($('#mailing').val()) ){
+       add_mailing('Autre',$('#mailing').val());
+       $('[data-toggle="tooltip"]').tooltip();
+       $('#mailing').val('');
+       }else $('#error-mail').html('Format mail incorrect !');
+       
+       
+  });
+  
+  $('input').change(function() {
+     $('form #folder').html($.format.date(new Date(), 'yyyyMMdd')+'-'+$('form #drive-client').val()+'-'+$('form #drive-dossier').val());
+  });
+  
+  /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   RECHERCHE DE LA LISTE DES DOSSIERS DU CLIENT
+   SUR PERTE FOCUS INPUT CLIENT
+  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  $('#drive-client').blur(function(){
+      console.log('blur:%s',$('#drive-client').val());
+      google.script.run
+       .withSuccessHandler(function(tags){ 
+         $('form #dossier').html(function(){
+           var ret='';
+           
+           for(var i=0;i<tags.length;i++) ret+=tags[i]+'<br>';
+           return ret;
+         });
+         
+        })
+       .withFailureHandler(function(e){$('#warning #message').html('<h1>Erreur!</h1><br>'+e);$('#warning').show();})
+       .get_drive_all_dossier($('#drive-client').val());
+  
+  
+  });
+  
+  
+  $('form').submit('click',function(){ 
+  
+     console.log('submit');
+     $('#warning').hide();
+     $('#avancement').html('');
+     $('button[type="submit"]').button('copy');
+     $('fieldset').attr('disabled','disabled');
+   
+     var editors=[];
+      
+     
+     
+     editors  = $('#groupe_mail li input').map(function() {return this.value;}).get();
+     
+  
+     $('#avancement').append('initialisation de l\'arborescence...<br>');
+     $('#avancement').append('copie du template (cela peut prendre quelques minutes)...');
+     
+     
+     google.script.run
+       .withSuccessHandler(function(Id){ 
+           console.log('return make_copy_template : %s',Id);
+        
+           //$('#success').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><b>  Opération terminée !<p>La création de l\'arborescence avant-vente suivante :'+ destination +' a été créé avec succès</p></b>')
+           //                           .show();
+           $('#avancement').append('terminé<br>');
+           $('#avancement').append('recopie du cdc et du cr go/nogo...<br>');
+           google.script.run
+                .withSuccessHandler(function(files){ 
+                    console.log('return make_copy_cdc2template : %s',files);
+                     $('button[type="submit"]').button('end');
+                    //$('form').hide();
+                   if(files)
+                      $('#avancement').append('copie de '+files+' fichier(s) de <b>'+<?=ref?>+'</b> vers le Drive AVV <b>'+$('#folder').html()+'</b>...terminé<br>');
+                   else
+                      $('#avancement').append('aucun dossier <b>'+<?=ref?>+'</b>...terminé<br>');
+                   
+                   $('#success').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span><b>  Opération terminée !<p>La création de l\'arborescence avant-vente suivante :'+ $('#folder').html() +' a été créé et partagée avec succès</p></b>')
+                                 .show();
+                })
+                .withFailureHandler(function(e){
+                    console.log('Exception!');
+                    $('#warning #message').html('<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Un problème est survenue!<br>'+e);
+                    $('#warning').show();
+                    $('button[type="submit"]').button('reset')
+                    $('fieldset').removeAttr('disabled');
+                })
+                .make_copy_cdc2template(<?=ref?>, Id );
+       
+        })
+       .withFailureHandler(function(e){
+           console.log('Exception!');
+           $('#warning #message').html('<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Un problème est survenue!<br>'+e);
+           $('#warning').show();
+           $('button[type="submit"]').button('reset')
+           $('fieldset').removeAttr('disabled');
+           
+        })
+       .make_copy_template($('form #drive-client').val(), $('#folder').html(), editors,<?=ref?>);
+       
+     
+      
+     return false;
+  });
+  
+  
+});
+  
+  function add_mailing(title,ressource){
+    var html=''; 
+       html+='<li style="list-style-type: none" >';
+       html+='<div class="input-group">';
+       html+='<span class="input-group-addon" data-toggle="tooltip" data-placement="left" title="'+title+'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></span>';
+       html+='<input id="partenaire" name="" class="form-control" placeholder="nom du partenaire" type="text" value="'+ressource+'">';
+       html+='<span class="input-group-btn"><button id="btn_del" class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></span>';
+       html+='</div></li>';
+       $('#groupe_mail').prepend(html);
+       
+  }
+  
+  function CheckEmail(email){
+     var reg = new RegExp('^[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*@[a-z0-9]+([_|\.|-]{1}[a-z0-9]+)*[\.]{1}[a-z]{2,6}$', 'i');
+     if(reg.test(email)) return(true);
+     else return(false);
+  }
+</script>

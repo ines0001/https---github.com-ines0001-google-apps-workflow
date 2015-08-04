@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<meta name="google-site-verification" content="YyJGIV3p5TTgJUC1qaifBbeQNdWCfqz8bdRtwY87EnA" />
+<!--?!= include('bootstrap_block'); ?-->
+<!-- Appel de l'api google drive -->
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+ 
+ <style type="text/css">
+			/* "Winter Blues" CSS theme for CSS Table Gallery (http://icant.co.uk/csstablegallery/) by Gunta Klavina (http://www.klavina.com) */
+
+
+.preheader { display:none !important; visibility:hidden; opacity:0; color:transparent; height:0; width:0; }
+
+a{
+  color: #739931;
+}
+.page{
+  max-width: 60em;
+  margin: 0 auto;
+}
+table th,
+table td{
+  text-align: left;
+}
+table.layout{
+  width: 100%;
+  border-collapse: collapse;
+}
+table.display{
+  margin: 1em 0;
+}
+table.display th,
+table.display td{
+  border: 1px solid #B3BFAA;
+  padding: .5em 1em;
+}
+
+table.display th{ background: #D5E0CC; }
+
+table.display td.warning{ background: #f8efc0;}
+
+table.responsive-table{
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 991px){
+    table.responsive-table{
+      box-shadow: none !important;  
+    }
+    table.responsive-table thead{
+      display: none !important; 
+    }
+  table.display th,
+  table.display td{
+    padding: .5em !important;
+  }
+    
+  table.responsive-table td:nth-child(n):before{
+    content: attr(data-title);
+    width : 20%;
+  }
+  table.responsive-table.btn td:nth-child(n):before{
+    padding-left: 12% !important;
+    content: 'bouton';
+  }
+  
+  table.responsive-table td.message:nth-child(n){
+   
+    width : 100%;
+    
+  }
+  
+  table.responsive-table td:nth-child(1),
+  table.responsive-table td:nth-child(2),
+  table.responsive-table td:nth-child(3),
+  table.responsive-table td:nth-child(4),
+  table.responsive-table td:nth-child(6),
+  table.responsive-table td:nth-child(7),
+  table.responsive-table td:nth-child(8){
+    padding-left: 20% !important;
+    padding-right: 20% !important;
+  }
+  table.responsive-table td:nth-child(5){
+    padding-left: 10% !important;
+  }
+  table.responsive-table td:nth-child(n):before{
+    position: absolute !important;
+    left: .5em !important;
+    font-weight: bold !important;
+  }
+  
+    table.responsive-table tr,
+    table.responsive-table td{
+        display: block !important;
+    }
+    table.responsive-table tr{
+        position: relative !important;
+        margin-bottom: 1em !important;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) !important;
+    }
+    table.responsive-table td{
+        border-top: none !important;
+    }
+    table.responsive-table td.organisationnumber{
+        background: #D5E0CC !important;
+        border-top: 1px solid #B3BFAA !important;
+    }
+    table.responsive-table td.actions{
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        border: none !important;
+        background: none !important;
+    }
+    table.responsive-table td.retard{
+        position: absolute !important;
+        top: 0 !important;
+        border: none !important;
+        min-width: 10px;
+        padding: 3px 3px;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 1;
+        margin-top: 4px;
+        margin-left:4px;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        
+        border-radius: 10px;
+        color: #fff;
+        background-color: #333;
+    }
+}
+
+
+ 
+ .jumbotron {
+    padding: 0.5em 0.6em;
+    h1 {
+        font-size: 2em;
+    }
+    p {
+        font-size: 1.2em;
+        .btn {
+            padding: 0.5em;
+        }
+    }
+  }
+ 
+ body{ 
+    
+    padding-top: 70px;
+    padding-bottom: 70px;
+    }
+ 
+ .footer {
+  
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+ 
+
+</style>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+        <img alt="Brand" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+    </div>
+    <p class="navbar-text"><?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+    
+      <span class="navbar-brand navbar-nav navbar-right">Formulaire de suivi d'un nouvel appel d'offre : <b>RELANCE</b></span>
+    
+    </div><!-- /.navbar-collapse -->
+  </div>
+</div>
+
+
+<div class="container"> 
+
+<div class="row">
+ <div class="col-md-12" role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist" id="relance_tab">
+    <li role="presentation" class="active"><a href="#dossiers" aria-controls="dossier" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-gift" aria-hidden="true">&nbsp;&nbsp;&nbsp;</span></a></li>
+    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-th-large" aria-hidden="true">&nbsp;&nbsp;&nbsp;</span></a></li>
+    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings<small>&nbsp;</small></a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="dossiers">
+           
+      <div class="alert alert-warning alert-dismissible" role="alert" style="display:none">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Page en construction!</strong><br><br>Les relances par mail ne sont actuellement pas implémentées.
+        Merci de votre compréhension<br><b>eremy@sqli.com</b><br>
+        Le: 19/03/2015.
+      </div>
+      <div class="page-header">
+       <h2> Liste des AVV(<small>sans RP</small>)</h2>
+      </div>
+      <div id="id_48h"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+      <div class="page-header">
+       <h2> Liste des AVV(<small>avec RP</small>)</h2>
+      </div>
+      <p>Lorem ipsum dolor <b>sit amet, consectetur adipiscing elit. </b>Nulla pharetra massa non ante pulvinar accumsan. In eros purus, hendrerit vitae dictum vitae, gravida non libero. Praesent sit amet pellentesque metus. Aliquam rutrum ante et sem mollis, id elementum felis imperdiet. Fusce semper nec enim vel placerat. Sed condimentum velit ex, eget pretium odio consectetur nec. Fusce non justo suscipit, ultricies mauris in, vehicula orci. Maecenas eu interdum neque. Mauris viverra, nisi vitae finibus luctus, nulla mauris lacinia nisl, a sagittis urna ligula ac ligula. Duis fringilla dictum purus, pharetra commodo nisl porttitor at. Sed fermentum neque ligula, at fringilla libero tristique vel. Morbi interdum maximus tortor, vel suscipit metus posuere in. Mauris erat neque, suscipit id ipsum eget, porta commodo odio.</p>
+    
+    </div>
+    
+    <div role="tabpanel" class="tab-pane" id="settings">
+     <div class="page-header">
+       <h1>Example page header <small>Subtext for header</small></h1>
+     </div>
+    </div>
+  </div>
+ </div> <!-- class="col-md-12"-->
+ 
+ 
+</div>  <!-- class="row"-->
+</div>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/locales/bootstrap-datepicker.fr.js"></script>
+<script>
+$(function(){
+  console.log('Ready!:%s',<?=ScriptApp.getService().getUrl();?>);
+  
+  
+    
+  google.script.run
+       .withSuccessHandler(function(ret){if(ret) $('.navbar span[class="navbar-brand navbar-nav navbar-right"]').append('<span class="glyphicon glyphicon-wrench" style="color:red" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Etat: HORS PRODUCTION"></span>');})
+       .IsIntegration();
+  
+  google.script.run
+       .withSuccessHandler(function(html){
+           $('#id_48h').html(html);
+           $('.actions a').one( "click", function() {
+             var html='<td class="organisationname message" data-title="" width=33% >';
+             html+='<form id="f_message" class=""  >';
+             html+='<div class="clearfix form-group ">';
+             html+='<label class="control-label">Message pour le manager</label>';
+             html+='<textarea id="message" name="message"type="textarea" class="form-control" rows="5" required></textarea>';
+             html+='</div>';
+             html+='<div class="clearfix form-group ">';
+             html+='<button class="btn btn-primary" type="submit">Envoie</button>';
+             html+='</div>';
+             html+='</div>';
+             html+='</td>';
+             
+             $(this).parent().parent().append(html);
+             $(".organisationname form").on('submit',function(){
+               console.log($(this).message);
+               $('#f_message').parent().remove();
+               return false;
+             });
+             return false;
+           });
+           })
+       .buildHtmlTable_48h();
+  
+  
+  
+});
+
+</script>
+

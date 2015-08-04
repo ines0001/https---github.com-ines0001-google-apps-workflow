@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<head>
+
+  <meta name="google-site-verification" content="YyJGIV3p5TTgJUC1qaifBbeQNdWCfqz8bdRtwY87EnA" />
+  <!--?!= include('bootstrap_block'); ?-->
+  <!-- Appel de l'api google drive -->
+  <script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"-->
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+  
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+
+ <?!= include('style-pp9web'); ?> 
+
+</head>
+
+<style type="text/css"></style>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+        <img alt="Brand" style="background-color: white;" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+      
+    </div>
+    <p class="navbar-brand navbar-nav">
+      <span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-creux">9</span><span class="pp9-police">{WEB}</span>
+    </p>
+    <p class="navbar-brand navbar-nav"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+      <span class="navbar-right timeline-badge info"><i class="glyphicon glyphicon-check"></i></span>
+      <span class="navbar-brand navbar-nav navbar-right">Formulaire de suivi d'un nouvel appel d'offre : <b>DEMANDE</b></span> 
+      
+    </div><!-- /.navbar-collapse -->
+    
+  
+</div>
+
+
+<div class="container">
+
+  <?!=HtmlService.createHtmlOutputFromFile('Alert').getContent(); ?>
+  <?!=HtmlService.createHtmlOutputFromFile('contact').getContent(); ?>
+  <div>
+    <div id="success" class="jumbotron alert alert-success" role="alert" style="display:none"></div>
+    <div id="error" class="jumbotron alert alert-warning" role="alert" style="display:none"></div>
+  </div>
+    
+    
+  
+  <div class="row-fluid">
+   <div class="col-xs-12 ">
+     
+     <?!=HtmlService.createHtmlOutputFromFile('form_page1').getContent(); ?>
+     
+     <?!=HtmlService.createHtmlOutputFromFile('form_page2').getContent(); ?>
+     
+     <?!=HtmlService.createHtmlOutputFromFile('sendbox_preview').getContent(); ?>
+     
+     
+     
+     
+   </div>
+   
+   
+  </div>
+  
+</div>
+
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="">
+    <small class="navbar-text pull-left ">Dernière mise à jour<a id="info" class="text-mutex" target="#" title="Lien SQLI" >Juillet 2015</a></small>
+    
+    
+    
+    <span class="col-sm-8 ">
+      <div class="ticker-wrap">
+        <div class="ticker" style="-webkit-animation-duration: <?=duration?>;animation-duration: <?=duration?>;"></div>
+      </div>
+    </span>
+    <span class="col-sm-1 "></span>
+    <span id="contact" class="navbar-btn btn-danger btn" title="Prendre contact" >Contact</span>
+    
+  </div>
+  
+</div>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/locales/bootstrap-datepicker.fr.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.3.1/jquery.maskedinput.min.js"></script>
+
+
+<!--?!= include('jvalidate'); ?-->
+
+<script>
+// PARTIE JQUERY
+$(function(){
+console.log('Ready!');
+
+
+/*
+  Mise en forme du ticker en pied de page
+*/
+$('.ticker').css('padding-right',$('.ticker-wrap').parent().width())
+google.script.run.withSuccessHandler(function(values){
+                    var out='';
+                    $.each(values,function(index,value){out+='<div class="ticker__item">'+value+'</div>'})
+                    $('.ticker').append(out)
+                    
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Informations flash');
+
+$('#form_page1 #date').datepicker({
+    language: "fr",
+    format: 'dd/mm/yyyy',
+    todayHighlight: true,
+});
+
+$('#budget').maskMoney();
+
+$.mask.definitions['h'] = "[a-zA-Z0-9]"
+$("#crm").mask("99-hhhhhh-hhhh")
+
+google.script.run
+       .withSuccessHandler(function(ret){if(ret) $('.navbar span[class="navbar-brand navbar-nav navbar-right"]').append('<span class="glyphicon glyphicon-wrench" style="color:red" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Etat: HORS PRODUCTION"></span>');})
+       .IsIntegration();
+
+$('[data-toggle="tooltip"]').tooltip();
+ 
+$('section#partenaires span#btn_add').on('click',function(){
+     
+     if( $('section#partenaires li').length < 5 )
+         $('div#add_partenaire').append('<li style="list-style-type: none" ><div class="input-group"><span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span><input id="partenaire" name="" class="form-control" placeholder="nom du partenaire" type="text" ><span id="btn_del" class="input-group-addon" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></span></div></li>');
+     
+     });
+     
+$('section#concurrents span#btn_add_c').on('click',function(){
+     
+     if( $('section#concurrents li').length < 5 )
+      $('div#add_concurrent').append('<li style="list-style-type: none" ><div class="input-group"><span class="input-group-addon" ><span class="glyphicon glyphicon-user"></span></span><input id="concurrent" name="" class="form-control" placeholder="nom du concurrent" type="text" ><span id="btn_del" class="input-group-addon" ><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></span></div></li>');
+     
+     });
+     
+$('div#add_partenaire').on('click', 'li span#btn_del' , function(){
+     $(this).parent().parent().remove();
+     });
+     
+$('div#add_concurrent').on('click', 'li span#btn_del' , function(){
+     $(this).parent().parent().remove();
+     });
+     
+$('input[required],textarea[required],select[required]').each(function(index) {  
+     
+     //$(this).removeAttr('required');
+    $(this).parent().addClass('has-error');
+})
+     
+    
+     
+$('#form_page1 div.form-group').each(function(index) {      
+     
+      //$(this).removeClass('form-group');
+      });
+      
+google.script.run
+       .withSuccessHandler(function(html){$('select#practice').html(html);})
+       .withFailureHandler(function(message){$("#pratice").html(message);})
+       .getHtml_practice();     
+
+google.script.run
+       .withSuccessHandler(function(html){$('select#unit').html(html);$('select#unit').prop( "selectedIndex", -1);})
+       .withFailureHandler(function(message){$("#unit").html(message);})
+       .getHtml_unit();
+
+// Mise à jour de la liste des Practice
+     
+
+$('select#practice').on('load change', function (e) {
+ // $('#moteur option[value="essence"]').prop('selected', true);   
+    google.script.run
+       .withSuccessHandler(function(val){$('select#unit').val(val);})
+       .withFailureHandler(function(message){$("#unit").html(message);})
+       .GetUnit(this.value);
+    
+});
+
+// Alimentation de la liste des technos
+google.script.run.withSuccessHandler(function(values){
+                    var out='';
+                    $.each(values,function(index,value){out+='<option><a href="#">'+value+'</a></option>'})
+                    $('#techno').html(out)
+                                .prop( "selectedIndex", -1)
+                    
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Liste des technos');
+// Event associé à la sélection d'une techno
+$('#techno').on('change', function (e) {
+  if($(this).val().match(/Autre/)) {
+            $('#section-techno-autre').removeClass('hide')
+            $('#techno-autre').prop('disabled',false)
+                              .val('')}
+  else { $('#section-techno-autre').addClass('hide')
+         $('#techno-autre').prop('disabled',true)
+                           .val('')}
+})
+
+
+
+
+
+// Partie Submit
+ $("#form_page1").on('submit',function(){
+   
+       // Add Element Hide TextArea id="partenaires"
+       $('textarea#partenaires').html($('#add_partenaire li input').map(function() {return this.value;})
+       .get()
+       .join());
+       
+       // Add Element Hide TextArea id="conrurrents"
+       $('textarea#concurrents').html($('#add_concurrent li input').map(function() {return this.value;})
+       .get()
+       .join());
+       
+       // On génère l'ensemble des attributs name aux éléments
+       $('#form_page1 input, #form_page1 textarea, #form_page1 select').each(function(index){
+          $(this).attr("name",$(this).attr("id"));
+       });
+     
+       $('#form_page1').hide();
+       $('#form_page2').show();
+    
+    return false;
+ 
+ });
+ 
+ $("#btn_previous").on('click',function(){
+   
+   $('#form_page2').hide();
+   $('#form_page1').show();
+ 
+ });
+ 
+ /*** CALL GOOGLE PICKER UPLOAD FILES *****/
+  $('#form_page2 .bootstrap-filestyle button').on('click',function(){
+     
+     
+     google.script.run.withSuccessHandler(createPicker)
+        .withFailureHandler(function(e){console.log(e);}).getOAuthToken();
+ 
+    });
+ 
+ /*
+ 
+ Modal release notes
+ */
+ $('#info').on('click',function(){
+ 
+   $('#release-notes').modal({
+          backdrop:false,
+          });
+ });
+ 
+ $('#release-notes').on('show.bs.modal', function (e) {
+     google.script.run.withSuccessHandler(function(values){
+                  $('#notes').html('')
+                  for(var i in values){$('#notes').append(values[i])}
+                    
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Release notes');
+   
+   
+ });
+ 
+ /*** CALL CONTACT *****/
+ $('#contact').on('click',function(){
+ 
+   $('#contactModal').modal({
+          backdrop:false,
+          });
+ });
+ 
+ $('#contactModal').on('show.bs.modal', function (e) {
+   $('#contactModal #recipient-name').val(<?=Session.getActiveUser().getEmail();?>);
+   $('#contactModal #message-text').val('');
+ });
+ 
+ $('#contactModal button[class="btn btn-primary"]').on('click',function(){
+      var note = $('#contactModal #message-text').val();
+      
+      if( note == '') return;
+      google.script.run.withSuccessHandler()
+        .withFailureHandler(function(e){$('#alert #error').html(e);$('#alert').modal('show');})
+        .MailContact(note);
+      $('#contactModal').modal('hide');
+   
+   });
+ 
+ 
+ /*google.script.run
+       .withSuccessHandler(function(value){$('#contact').attr('href', 'mailto:'+value+'?subject=Demande de contact');}).GetEMAIL_CONTACT();
+  */
+ 
+ /*** GESTION DE LA BOITE PREVISUALISER ***/
+ 
+ $('#btn_visualize').on('click',function(){
+ 
+   $('#ModalPreview').modal({
+          backdrop:false,
+          });
+ });
+ 
+ 
+ $('#ModalPreview').on('show.bs.modal', function (e) {
+  
+  google.script.run
+       .withSuccessHandler(function(manager){$('#ModalPreview #dest').html(manager);})
+       .withFailureHandler(function(){console.log("failure collect...");})
+       .GetManager($("#form_page1 #unit").val());
+  
+  google.script.run
+       .withSuccessHandler(function(html){
+              
+              $('#ModalPreview #cc').html(<?=EMAIL_CC?>);
+              $('#ModalPreview #objet').html('Dossier-'+$("#form_page1 #client").val()+'-'+$("#form_page1 #ao").val()+' pour le '+$("#form_page1 #date").val());
+              $('#ModalPreview #modal_body_previsu').html(html.htmlBody);
+              
+              })
+       .withFailureHandler(function(){console.log("failure collect...");})
+       .HtmlPreviewModal( $("#form_page1").serializeArray(),$("#form_page2 #mail").val());
+  
+  
+   
+})
+ 
+ /** FIN DU BLOC DE LA BOITE PREVISU ****/
+ 
+ 
+ /** Envoie du mail ***/
+ 
+ /** directement depuis le bouton sbumit du formulaire  */
+ $("#form_page2").on('submit',function(){
+    // Message En attente
+    $('#myButton').button('loading');
+    $('fieldset').attr('disabled','disabled');
+    /*
+    $('#wait').modal({
+        keyboard: false,
+        backdrop: false
+          });
+    
+    */
+    
+    // Collecte des données
+   
+    google.script.run
+       .withSuccessHandler(function(values){
+       
+         var message=''
+         message+='<p> Votre demande a bien été enregistré sous la référence '
+         if(values.drive) message+='<a href="'+values.drive+'" target="#" style="color:inherit;"><b>'+values.id+'</b></a>'
+         else message+='<b>'+values.id+'</b>'
+         message+='</p>'
+         message+=' <p> Un mail sera très prochainement envoyé à <u>'+values.manager+'</u>, manager de Unit <span>'+values.unit+'</span></p>'
+         message+='<p>Merci</p>'
+         $('#form_page2').hide();
+         $('#success').html(message).show();
+         
+         })
+       .withFailureHandler(function(e){
+         $('#error').html(e).show();
+         
+         })
+       .save_form( $("#form_page1").serializeArray(),
+                   $("#form_page2 #mail").val(),
+                   $("#form_page2 #drive_id_files").html());
+   
+    
+    return false;
+ 
+ });
+
+});
+// PARTIE JAVASCRIPT
+
+
+
+
+function closeSubmit(ret){console.log(ret);}
+function showError(){return true;}
+</script>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<meta name="google-site-verification" content="YyJGIV3p5TTgJUC1qaifBbeQNdWCfqz8bdRtwY87EnA" />
+<!--?!= include('bootstrap_block'); ?-->
+<!-- Appel de l'api google drive -->
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+
+
+                             
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+ 
+
+<style>
+ body{ 
+    
+    padding-top: 70px;
+    padding-bottom: 70px;
+    }
+ .form-control{    
+    
+    z-index:1 !important;
+ }
+ 
+ .jumbotron {
+    padding: 0.5em 0.6em;
+    font-size: 1.8em;
+  }
+  
+  .jumbotron.uppercase h2{
+    text-transform: uppercase;
+  }
+  
+  .pp9-police{
+  
+   font-weight: bold;
+   font-family: 'Lucida Caligraphy'; font-size:13pt;
+   text-align: center;
+ 
+ }
+ .pp9-border-plein{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 1px solid white; 
+   color: black;
+   padding: 2px 6px 1px 6px;
+   background: white;
+   margin-right: 1px;
+   
+ }
+ .pp9-border-creux{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 3px solid white; 
+   
+   padding: 1px 6px 1px 6px;
+   
+   margin-right: 1px;
+   
+ }
+</style>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+        <img alt="Brand" style="background-color: white;" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+    </div>
+    <p class="navbar-brand navbar-nav">
+            <span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-creux">9</span><span class="pp9-police">{WEB}</span>
+    </p>
+    <p class="navbar-brand navbar-nav"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+    
+      <span class="navbar-brand navbar-nav navbar-right">Formulaire de suivi d'un nouvel appel d'offre : <b>DECISION GO/NOGO</b></span>
+    
+    </div><!-- /.navbar-collapse -->
+  
+</div>
+
+<div class="container">  
+
+<div class="jumbotron uppercase" style="display:true">
+       
+       <h2>récapitulatif pour le </h2>
+       <p>Recherche en cours...</p>
+       <div id="success" class="alert alert-success" role="alert" style="display:none"><p></p></div>
+</div>
+<div id="error" class="alert alert-warning" role="alert" style="display:none"></div>
+
+<?!=HtmlService.createHtmlOutputFromFile('contact').getContent(); ?>
+
+<div class="row">
+<div class="col-md-offset-3 col-md-6">
+
+<div class="row">
+<form id="form_other" class="" style="display:true"  > <!--form-horizontal-->
+  <fieldset>
+                 <input id="reference" value="<?=reference;?>" style="display:none">
+                 <input id="result" value="<?=result;?>" style="display:none">
+                 <input id="client"  style="display:none">
+                 <input id="dossier" style="display:none">
+                 <input id="rp" style="display:none">
+                 
+                 <div id="form-group-go" class="clearfix">
+                 
+                  <section class="col-md-4" >
+                    <label class="control-label" for="">Date de Remise</label>
+                    <!----------------------------------------------
+                    Si on utilise <div class="input-group date"> alors
+                    L'event click sur le <span class="input-group-addon"> n'est
+                    pas catché
+                    ------------------------------------------------->
+                    <label class="input-group date">
+                      <input id="remise" data-format="datepicker" type="text" class="form-control" placeholder="choisir une date" required>
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </label>
+                    <small class="help-block">Préciser de nouvelles dates si besoin</small>
+                  </section>
+                 
+                  <section class="col-md-4" >
+                    <label class="control-label" for="">Date du Visa Forfait</label>
+                    <label class="input-group date" id="datetimepicker_visa">
+                       <input id="visa" data-format="datepicker" type="text" class="form-control" placeholder="choisir une date" required>
+                       <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </label>
+                    
+                    
+                    <small class="help-block"></small>
+                  </section>
+                 
+                  <section class="col-md-4" >
+                    <label class="control-label" for="">Date du DAR</label>
+                    <label class="input-group date">
+                      <input id="dar" data-format="datepicker" type="text" class="form-control" placeholder="choisir une date" required>
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </label>
+                    <small class="help-block"></small>
+                  </section>
+                 
+                 
+                 </div> <!-- End form-group-go  -->
+                 
+                 <div class="clearfix" style="display:true">
+                   <section class="col-md-5">
+                   <label id="label-cr" class="control-label">Compte-rendu du </label>
+                 
+                     <div class="bootstrap-filestyle input-group">
+                       <span class="group-span-filestyle " tabindex="0">
+                         <button for="filestyle-0" class="btn btn-default" type="button">
+                          <span class="glyphicon glyphicon-folder-open">&nbsp;</span>
+                          <span class="buttonText">Sélectionner le fichier</span>
+                          <span id="badge_files" class="badge"></span>
+                         </button>
+                        </span>
+                     </div>
+                     <input id="drive_id_files" style="display:none" >
+                     <span id="error-mail" class="label label-warning"></span>
+                     <p id="name_file" class="form-control-static"></p>
+                   </section> 
+                 </div>
+                 
+                 <div class="clearfix">
+                 <section class="col-md-12">   
+                   <label for="commentaire" class="control-label">Commentaire</label>
+                   <div>
+                      <textarea id="commentaire" type="textarea" class="form-control" rows="7" ></textarea>
+                   </div>
+                   <small id="help-textarea" class="help-block"></small>
+                 </section>  
+                 </div>      
+                       
+                 <div id="warning" class="alert alert-warning alert-dismissible fade in" role="alert" style="display:none">
+                 <p></p>
+                </div>
+                
+                <div class="clearfix">
+                 <section class="col-md-12">
+                    <button id="btn_val" class="pull-left btn btn-primary" type="submit" data-copy-text="mise à jour en cours...">Valider</button>
+                 </section>
+                </div>
+               
+               
+  </fieldset>                 
+</form> <!--End Form Unit redispatch -->
+
+                  
+</div>
+</div>
+</div>	<!--End Container -->
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <p class="navbar-text pull-left ">Site Built by <a class="text-mutex" href="http://www.sqli-enterprise.com/" target="_blank" title="Lien SQLI" >sqli.com</a></p>
+    <span id="contact" class="navbar-btn btn-danger btn pull-right" title="Prendre contact" >Contact</span>
+  </div>
+</div>
+</body>
+			  
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-bootstrap/0.5pre/assets/js/jquery-ui-1.10.0.custom.min.js"></script>
+<script>
+/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+$.widget.bridge('uibutton', $.ui.button);
+$.widget.bridge('uitooltip', $.ui.tooltip);
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+$(function(){
+  console.log('Ready! : %s', <?=reference?>);
+  console.log('decision result! : %s', <?=result?>);
+  
+  $('fieldset').hide();
+  
+          
+  $('input[data-format="datepicker"]').datepicker({
+    language: "fr",
+    format: 'dd/mm/yyyy',
+    daysOfWeekDisabled: '0,6',
+    
+    });
+  /*\/\/\/\/\/\/\\/\/\/\\/\/\/\\/\/\/\
+  https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js
+    
+  $('#datetimepicker_visa').datetimepicker({toolbarPlacement: 'top'});
+  /\/\/\/\/\/\/\\/\/\/\\/\/\/\\/\/\/\*/
+  /*
+     Demande MANTIS 0045 : Rendre l'upload du fichier de CR du Go No Go NON OBLIGATOIRE, et le commentaire texte OBLIGATOIRE
+  */
+  //if(<?=result?>!='go') 
+  $('#commentaire').attr('required',true);
+  
+  $('input[required],textarea[required],select[required]').each(function(index) {  
+
+    $(this).parent().addClass('has-error');
+    });
+  
+  $('input, textarea, select').each(function(index){
+               $(this).attr("name",$(this).attr("id"));
+               });
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  Initialiser les infos dans la bar nav
+  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  if(<?=result?>=='go') {
+                          $('.jumbotron h2').append('GO');
+                          $('#help-textarea').html('Si la décision du Go est délicate, il est indispensable de mener le Go sur base d\'une PP9 et d\'uploader le fichier de CR qui justifie la décision');
+                          $('#label-cr').append('Go');
+                         }
+  else {
+       $('.jumbotron h2').append('NO GO');
+       $('#help-textarea').html('Si la décision du No Go est délicate, il est indispensable de mener le No Go sur base d\'une PP9 et d\'uploader le fichier de CR qui justifie la décision');
+       $('#label-cr').append('No Go');
+       $('#form-group-go').hide();
+       $('#remise').removeAttr('required');
+       $('#dar').removeAttr('required');
+       $('#visa').removeAttr('required');
+       }
+  
+/*** CALL CONTACT *****/
+  $('#contact').on('click',function(){ $('#contactModal').modal({
+          backdrop:false,
+          }); });
+          
+  $('#contactModal').on('show.bs.modal', function (e) {
+   $('#contactModal #recipient-name').val(<?=Session.getActiveUser().getEmail();?>);
+   $('#contactModal #message-text').val('');
+   });
+ 
+  $('#contactModal button[class="btn btn-primary"]').on('click',function(){
+      var note = $('#contactModal #message-text').val();
+      
+      if( note == '') return;
+      google.script.run.withSuccessHandler()
+        .withFailureHandler(function(e){$('#alert #error').html(e);$('#alert').modal('show');})
+        .MailContact(note);
+      $('#contactModal').modal('hide');
+   
+   });
+
+
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  CALL GOOGLE PICKER UPLOAD FILES
+  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  
+  $('.bootstrap-filestyle button').on('click',function(){
+     
+     $('#error-mail').html('');
+     google.script.run.withSuccessHandler(createPicker)
+        .withFailureHandler(function(e){$('#error').html('<h1>Erreur!</h1><br>'+e);$('#error').show();}).getOAuthToken();
+ 
+    });
+ 
+  $('fieldset').attr('disabled','disabled');
+  $('button[type="submit"]').attr('disabled','disabled');
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  CALL Server info fiche
+  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  google.script.run
+       .withSuccessHandler(function(value){ 
+         console.log(value);         
+         $('.jumbotron p').html('Dossier :'+value.client+'-'+value.dossier+'<br><small>Responsable de proposition : '+value.rp
+                  +'</small><br><small>Manager : '+value.manager+'</small>' )
+         
+         $('form').show();
+         $('#client').val(value.client);
+         $('#dossier').val(value.dossier);
+         $('#rp').val(value.rp);
+         
+         $('button[type="submit"]').removeAttr('disabled');
+         $('fieldset').removeAttr('disabled');
+         
+         $('#remise').datepicker('setDate', value.remise);
+         $('#dar').datepicker('setDate', value.dar);
+         $('#visa').datepicker('setDate', value.visa);
+         
+         switch(value.state){
+           case 'EN ATTENTE':
+           case 'RELANCE':$('#error').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Le dossier n\'est toujours pas affect&eacute; à un responsable de proposition !');
+                          $('#error').show();
+                          break;
+           case 'GO':
+           case 'NOGO':$('#error').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Le statut du dossier est: '+value.state);
+                       $('#error').show();
+                       break;
+           
+           default: $('fieldset').show();
+         
+         }
+                            
+       })
+       .withFailureHandler(function(e){$('#error').html('<h1>Erreur!</h1><br>'+e);$('#error').show();})
+       .getInfoGeneric(  <?=reference?> );
+  
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  CALL SUBMIT FORM
+  \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  $("form").on('submit',function(){
+  
+     console.log('submit');
+     $('button[type="submit"]').button('copy');
+     $('#error-mail').html('');
+     
+     /*** Contrôle sur les dates ***/
+     var remise = $('#remise').datepicker('getDate');
+     var dar = $('#dar').datepicker('getDate');
+     var visa = $('#visa').datepicker('getDate');
+     if(remise<dar || dar<visa) {
+         $('#warning p').html('<b>Attention!</b><br>Merci de vérifier la chronologie des dates proposées');
+         $('#warning').show();
+         $('button[type="submit"]').button('reset');
+         $('fieldset').removeAttr('disabled');
+         return false;}
+         
+     /*** Contrôle si PJ présent ***/
+     
+     /*  Demande MANTIS 0045 : Rendre l'upload du fichier de CR du Go No Go NON OBLIGATOIRE
+     
+     if($('#drive_id_files').val()==''){
+        $('#error-mail').html('Fichier obligatoire !');
+        $('button[type="submit"]').button('reset');
+        $('fieldset').removeAttr('disabled');
+        return false;}
+     */
+    
+     $('fieldset').attr('disabled','disabled');
+     google.script.run
+       .withSuccessHandler(function(value){
+           
+           var message ='Votre demande a bien été traité.<br>';
+           message+=(<?=result?>=='go')?'Une invitation pour le DAR a été ajoutée dans votre agenda pour le <b>'+$.format.date($('#dar').datepicker('getDate'), 'dd/MM/yyyy')+'</b>.<br>':'';
+           message+=(<?=result?>=='go')?'Un demande de visa forfait a été faite pour le <b>'+$.format.date($('#visa').datepicker('getDate'), 'dd/MM/yyyy')+'</b>.<br>':'';
+           message+=(<?=result?>=='go')?'Une demande de création d\'arborescence Google Drive a été envoyée.<br>':''; 
+          
+           $('#success p').html(message);
+           $('#success').show();
+           $('form').hide();
+                            
+       })
+       .withFailureHandler(function(e){
+              $('#error').html('<h1>Erreur!</h1><br>'+e);
+              $('#error').show();
+              console.log('reset button');
+              $('button[type="submit"]').button('reset');
+              $('fieldset').removeAttr('disabled');
+        })
+       .onValidateDecision(this);
+    return false;
+  });
+  
+  
+  });
+</script>
+
+<script type="text/javascript">
+  // IMPORTANT: Replace the value for DEVELOPER_KEY with the API key obtained
+  // from the Google Developers Console.
+  var DEVELOPER_KEY = 'AIzaSyARBZDBNiiHoFu-TPPqe_0-gpfxspKE2ts';
+  var DIALOG_DIMENSIONS = {width: 600, height: 425};
+  var pickerApiLoaded = false;
+
+  /**
+   * Loads the Google Picker API.
+   */
+  gapi.load('picker', {'callback': function() {
+    pickerApiLoaded = true;
+  }});
+
+  
+
+  /**
+   * Creates a Picker that can access the user's spreadsheets. This function
+   * uses advanced options to hide the Picker's left navigation panel and
+   * default title bar.
+   *
+   * @param {string} token An OAuth 2.0 access token that lets Picker access the
+   *     file type specified in the addView call.
+   */
+  function createPicker(token) {
+    console.log('createPicker');
+    
+    if (pickerApiLoaded && token) {
+      var picker = new google.picker.PickerBuilder()
+          // Instruct Picker to display only spreadsheets in Drive. For other
+          // views, see https://developers.google.com/picker/docs/#otherviews
+          //.addView(google.picker.ViewId.SPREADSHEETS)
+          // Hide the navigation panel so that Picker fills more of the dialog.
+          .enableFeature(google.picker.Feature.NAV_HIDDEN)
+          // Hide the title bar since an Apps Script dialog already has a title.
+          //.hideTitleBar()
+          .setTitle('Sélectionnez le compte-rendu du go-nogo')
+          .enableFeature(google.picker.Feature.SIMPLE_UPLOAD_ENABLED)
+          .setOAuthToken(token)
+          .setDeveloperKey(DEVELOPER_KEY)
+          .addView(new google.picker.DocsUploadView())
+          .setOrigin('https://script.google.com')
+          .setCallback(pickerCallback)
+          // Instruct Picker to fill the dialog, minus 2 pixels for the border.
+          //.setSize(DIALOG_DIMENSIONS.width - 2,
+          //    DIALOG_DIMENSIONS.height - 2)
+          .build();
+      picker.setVisible(true);
+         
+    } else {
+      showError('Unable to load the file picker.');
+    }
+  }
+
+  /**
+   * A callback function that extracts the chosen document's metadata from the
+   * response object. For details on the response object, see
+   * https://developers.google.com/picker/docs/result
+   *
+   * @param {object} data The response object.
+   */
+  function pickerCallback(data) {
+    var name=[],Ids=[],action = data[google.picker.Response.ACTION];
+    if (action == google.picker.Action.PICKED) {
+      
+      var docs = data[google.picker.Response.DOCUMENTS];
+      for(var index=0;index<docs.length;index++){
+        Ids.push(docs[index][google.picker.Document.ID]);
+        name.push('<small class="help-block"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><a href="'+
+                    docs[index][google.picker.Document.URL]+'" target="_blank"> '+
+                    docs[index][google.picker.Document.NAME]+' </a></small>');
+        
+
+      }
+      //var id = doc[google.picker.Document.ID];
+      //var url = doc[google.picker.Document.URL];
+      //var title = doc[google.picker.Document.NAME];
+      document.getElementById('badge_files').innerHTML =docs.length;
+      document.getElementById('drive_id_files').value =Ids.join();
+      document.getElementById('name_file').innerHTML =name.join('');
+    } else if (action == google.picker.Action.CANCEL) {
+      document.getElementById('result').innerHTML = 'Picker canceled.';
+    }
+  }
+
+  /**
+   * Displays an error message within the #result element.
+   *
+   * @param {string} message The error message to display.
+   */
+  function showError(message) {
+    document.getElementById('result').innerHTML = 'Error: ' + message;
+  }
+</script>
+

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<!-- Exemple Modele : http://leapfrogui.com/controlfrog/cf/layouts/w/layout-1.html  -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Bootstrap Admin Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+    
+    
+
+    <!-- Custom CSS -->
+    <!--?!=HtmlService.createHtmlOutputFromFile('sb-admin').getContent(); ?-->
+ 
+    
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <?!= include('style-bootstrap-timeline'); ?>
+    <?!= include('style-dashboard'); ?>   
+
+
+</head>
+
+<style>
+  body{ 
+      
+      padding-top: 70px;
+      padding-bottom: 70px;}
+   
+   .footer {
+    
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+  }
+
+</style>
+
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+      <img alt="Brand" style="background-color: white;" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+    
+    </div>
+    <p class="navbar-brand navbar-nav">
+      <span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-creux">9</span><span class="pp9-police">{WEB}</span>
+    </p>
+    <p class="navbar-brand navbar-nav"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+      <span class="navbar-right timeline-badge info"><i class="glyphicon glyphicon-check"></i></span>
+      <span class="navbar-brand navbar-nav navbar-right">Formulaire de suivi d'un nouvel appel d'offre : <b>SYNTHESE</b></span> 
+      
+    </div><!-- /.navbar-collapse -->
+  </div>
+  
+ 
+
+
+    <?!=HtmlService.createHtmlOutputFromFile('history-modal').getContent(); ?>
+    
+    <div class="container-fluid">
+    
+      <!-- Page Heading -->
+      <div class="row">
+      
+        <div class="col-lg-12">
+          <a class="btn btn-primary  pull-right" href="<?=ScriptApp.getService().getUrl() + '?page=new' ?>" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Pour créer une nouvelle demande, cliquer sur ce lien" role="button">Nouvelle demande&nbsp;<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+        
+        
+        </div>
+      </div>
+      
+      <!--?!=HtmlService.createHtmlOutputFromFile('dashboard-bloc-indicators').getContent(); ?-->
+      
+      <ul class="nav nav-tabs nav-pills nav-justified" role="tablist">
+        <li role="presentation" class="active"><a href="#table_synthese_en_cours" aria-controls="table_synthese_en_cours" role="tab" data-toggle="tab"><h4>DOSSIERS EN ATTENTE</h4></a></li>
+        <li role="presentation"><a href="#table_synthese_go" aria-controls="table_synthese_go" role="tab" data-toggle="tab"><h4><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>&nbsp;DOSSIERS GO</h4></a></li>
+        <li role="presentation"><a href="#table_synthese_nogo" aria-controls="table_synthese_nogo" role="tab" data-toggle="tab"><h4><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>&nbsp;DOSSIERS NO GO</h4></a></li>
+        
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="table_synthese_en_cours">  
+            <div id="id_table"><br/><label>Recherche En cours. Merci de patientez...</label></div>
+      
+         </div>
+         <div role="tabpanel" class="tab-pane fade" id="table_synthese_go">
+            <div id="id_table2"><br/><label>Recherche En cours. Merci de patientez...</label></div>
+         </div>
+          <div role="tabpanel" class="tab-pane fade" id="table_synthese_nogo">
+            <div id="id_table3"><br/><label>Recherche En cours. Merci de patientez...</label></div>
+          </div>
+      
+      </div>
+    
+    </div>
+    <!-- /.container-fluid -->
+    <?!=HtmlService.createHtmlOutputFromFile('contact').getContent(); ?>
+    <div class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container">
+        <p class="navbar-text pull-left ">Site Built by <a class="text-mutex" href="http://www.sqli-enterprise.com/" target="_blank" title="Lien SQLI" >sqli.com</a></p>
+        <span id="contact" class="navbar-btn btn-danger btn pull-right" title="Prendre contact" >Contact</span>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    
+    <script>
+    google.load("visualization", "1.1", {packages:['table']});
+    
+    
+  
+  
+  function drawTable() {
+     var opts = {sendMethod: 'auto'}, set_query, query;
+     
+     
+     google.script.run
+                .withSuccessHandler(function(values){ 
+                   console.log(values);
+                   set_query = encodeURIComponent(values[0].replace(/@user/g,<?=Session.getActiveUser().getEmail()?>));
+                   query = new google.visualization.Query(
+                   'https://spreadsheets.google.com/tq?tq='+set_query+'&key=<?=clsid?>&gid=2122602018',opts);
+                  
+                   query.send(handleQueryTable);
+                   
+                   
+                   set_query = encodeURIComponent(values[1].replace(/@user/g,<?=Session.getActiveUser().getEmail()?>));
+                   query = new google.visualization.Query(
+                   'https://spreadsheets.google.com/tq?tq='+set_query+'&key=<?=clsid?>&gid=2122602018',opts);
+                  
+                   query.send(handleQueryTable2);
+                   
+                   
+                   set_query = encodeURIComponent(values[2].replace(/@user/g,<?=Session.getActiveUser().getEmail()?>));
+                   query = new google.visualization.Query(
+                   'https://spreadsheets.google.com/tq?tq='+set_query+'&key=<?=clsid?>&gid=2122602018',opts);
+                  
+                   query.send(handleQueryTable3);
+                   
+                   
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Dashboard table_synthese');
+     
+     
+     
+                 
+       
+    };
+  
+ 
+  
+ /*
+ 
+ 
+ GOOGLE CHART TABLE
+ 
+ 
+ */
+ 
+ function handleQueryTable(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  // Graphic A
+  var data = response.getDataTable();
+  console.log('in handleQueryTable',data)
+  
+  var chart = new google.visualization.Table(document.getElementById('id_table'));
+  var cssClassNames = {
+                
+                tableRow:'cssTableRow',
+                oddTableRow:'cssTableRow', 
+                selectedTableRow:'cssHoverRow', 
+                hoverTableRow:'cssHoverRow', 
+                 
+                headerCell:'cssHeaderCell',
+                tableCell:'cssCell',
+                rowNumberCell:'css8'}
+                
+  var options = {
+    title: 'Dossiers en attente'
+    //,page:'enable'
+    //,pageSize: 12
+    ,allowHtml: true
+    //,showRowNumber: true
+    ,sortAscending:false
+
+    ,cssClassNames: cssClassNames
+    
+      
+  };
+  
+  
+  
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Statut
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var i_statut,i_url,i_log,i_datetime=[],i_reference;
+  for(var i=0;i<data.getNumberOfColumns();i++){
+      if(data.getColumnLabel(i)=='Statut') i_statut = i;
+      if(data.getColumnLabel(i)=='url') i_url = i;
+      if(data.getColumnLabel(i)=='log') i_log = i;
+      if(data.getColumnLabel(i)=='Identifiant') i_reference = i;
+      if(data. getColumnType(i)=='datetime') i_datetime.push(i);
+      if(data.getColumnLabel(i).match('Emission')) options.sortColumn = i;
+      
+  }
+  var formatter = new google.visualization.PatternFormat('<span class="label {0}" data-html="{0}">&nbsp;</span>');
+  formatter.format(data, [i_statut],i_statut);
+  
+  /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme des colonnes datetime
+  /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var formatter_short = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy'});
+  i_datetime.forEach(function(element,index){formatter_short.format(data, element);})
+  
+  
+  /*
+  Mise en place des tooltip sur les champs string
+  */
+  formatter = new google.visualization.PatternFormat('<span  data-toggle="tooltip" data-placement="bottom" title="{0}">{0}</span>');
+  formatter.format(data, [1],1);
+  formatter.format(data, [2],2);
+  formatter.format(data, [3],3);
+  formatter.format(data, [4],4);
+
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Action ( détail historique, lien folder google drive)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  data.addColumn('string', 'Actions');
+   for(var i=0;i<data.getNumberOfRows();i++){
+     var link = data.getValue(i,i_url) , histo = data.getValue(i,i_log), ref=data.getValue(i,i_reference)
+     var html_msg = "<label >"
+     
+     html_msg += "<a class='cssCellAction' target='_blank' href='<?=ScriptApp.getService().getUrl()?>?page=response&ref="+ref+"'  data-toggle='tooltip' data-placement='bottom' title='Attribuer un RP ou Relancer'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/check30.png' style='width:24px;padding-rigth:1px'></a>"
+     html_msg += "<a class='cssCellAction' target='_blank' href='<?=ScriptApp.getService().getUrl()?>?page=decision&result=go&ref="+ref+"'  data-toggle='tooltip' data-placement='bottom' title='GO'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/social16.png' style='width:24px;padding-rigth:1px'></a>"
+     html_msg += "<a class='cssCellAction' target='_blank' href='<?=ScriptApp.getService().getUrl()?>?page=decision&ref="+ref+"'  data-toggle='tooltip' data-placement='bottom' title='NO GO'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/forbidden22.png' style='width:24px;padding-rigth:1px'></a>"
+     
+     if( histo ) html_msg += "<a class='cssCellAction' href='#' data-url='"+histo+"' data-toggle='tooltip' data-placement='bottom' title='Détail'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/information15.png' style='width:24px;padding-rigth:1px'></a>"
+     if( link) html_msg += "<a class='text-warning cssCellAction' href='"+link+"' target='_blank'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/clip27.png' style='width:24px;padding-rigth:1px'></a>"
+     
+     html_msg+="</label>"
+     data.setValue(i,data.getNumberOfColumns()-1, html_msg )
+   }
+  
+  //formatter = new google.visualization.PatternFormat("<label><a href='#' data-url='{1}'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a>&nbsp;<a href='{0}' target='_blank'><span class='glyphicon glyphicon-paperclip' aria-hidden='true'></span></a></label");
+  //formatter.format(data, [data.getNumberOfColumns()-2,data.getNumberOfColumns()-1],data.getNumberOfColumns()-1);
+
+  
+  
+  
+
+
+  for(var index=0;index<data.getNumberOfColumns();index++){
+    if(data.getColumnLabel(index).search('glyphicon')!=-1){
+      //  label C "glyphicon-eye-open,Mon label personnalisé",
+      var labels = data.getColumnLabel(index).split(','), label;
+      label = '<span class="glyphicon '+labels[0]+'" aria-hidden="true"></span>&nbsp;';
+      if(labels.length>1) label+= labels[1];
+      
+      data.setColumnLabel(index,label);
+      }
+    }
+  
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Si aucun élément dans la table alors afficher aucun dossier
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\*/
+  if(data.getNumberOfRows()==0) { data.addRow();/*data.setValue(0, i_statut, 'Aucun dossier')*/}
+
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Masquer les éventuelles colonnes pour le traitement des actions
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/ 
+  var view = new google.visualization.DataView(data);
+  //view.hideColumns([data.getNumberOfColumns()-2]);
+  view.hideColumns([i_url,i_log,i_reference]);
+
+
+  
+
+
+  
+  google.visualization.events.addListener(chart, 'ready', myReadyHandler);
+  chart.draw(view, options);
+  
+  
+  /*
+  
+  REGLES D'AJUSTEMENT DES COLONNES
+  */
+  $('#id_table  .cssHeaderCell:contains("Code")').css('width', '10%');
+  $('#id_table  .cssHeaderCell:contains("Statut")').css('width', '10%');
+  $('#id_table  .cssHeaderCell:contains("Dossier")').css('width', '20%');
+  $('#id_table  .cssHeaderCell:contains("Emission")').css('width', '10%');
+  $('#id_table  .cssHeaderCell:contains("Remise")').css('width', '10%');
+  
+  
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Gestion des triggers Event du google Table (mise à jour action)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  google.visualization.events.addListener(chart, 'page', myReadyHandler);
+  google.visualization.events.addListener(chart, 'sort', myReadyHandler);
+  
+  /*
+  google.visualization.events.addListener(chart, 'select', function(){
+            var selectedItem = chart.getSelection()[0];
+            
+            if (selectedItem) {
+              var value = data.getValue(selectedItem.row,i_log);
+              
+              eventHistory(value)
+              console.log('The user selected: ' + value);
+            }
+            
+          
+  
+  });
+  */
+  
+ 
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Applique le CSS de BOOSTRAP table
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/  
+  //$('table').removeClass('google-visualization-table-table');
+  //$('table').addClass('table table-condensed table-hover');
+  
+  
+}
+
+/*
+ 
+ GOOGLE CHART TABLE  
+ 
+   GO, WIN
+ 
+ */
+function handleQueryTable2(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  // Graphic A
+  var data = response.getDataTable();
+  console.log('in handleQueryTable',data)
+  
+  var chart = new google.visualization.Table(document.getElementById('id_table2'));
+  var cssClassNames = {
+                
+                tableRow:'cssTableRow',
+                oddTableRow:'cssTableRow', 
+                selectedTableRow:'cssHoverRow', 
+                hoverTableRow:'cssHoverRow', 
+                 
+                headerCell:'cssHeaderCell',
+                tableCell:'cssCell',
+                rowNumberCell:'css8'}
+                
+  var options = {
+    title: 'Dossiers GO'
+    //,page:'enable'
+    //,pageSize: 12
+    ,allowHtml: true
+    //,showRowNumber: true
+    ,sortAscending:false
+    ,cssClassNames: cssClassNames
+      
+  };
+  
+  
+  
+  
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Statut
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var i_statut,i_url,i_log,i_datetime=[];
+  for(var i=0;i<data.getNumberOfColumns();i++){
+      if(data.getColumnLabel(i)=='Statut') i_statut = i;
+      if(data.getColumnLabel(i)=='url') i_url = i;
+      if(data.getColumnLabel(i)=='log') i_log = i;
+      if(data. getColumnType(i)=='datetime') i_datetime.push(i);
+      if(data.getColumnLabel(i).match('Emission')) options.sortColumn = i;
+      
+  }
+  var formatter = new google.visualization.PatternFormat('<span class="label {0}" data-html="{0}">&nbsp;</span>');
+  formatter.format(data, [i_statut],i_statut);
+  
+  /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme des colonnes datetime
+  /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var formatter_short = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy'});
+  i_datetime.forEach(function(element,index){formatter_short.format(data, element);})
+  
+   /*
+  Mise en place des tooltip sur les champs string
+  */
+  formatter = new google.visualization.PatternFormat('<span  data-toggle="tooltip" data-placement="bottom" title="{0}">{0}</span>');
+  formatter.format(data, [1],1);
+  formatter.format(data, [2],2);
+  formatter.format(data, [3],3);
+  formatter.format(data, [4],4);
+  
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Action ( détail historique, lien folder google drive)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  data.addColumn('string', 'Actions');
+   for(var i=0;i<data.getNumberOfRows();i++){
+     var link = data.getValue(i,i_url) , histo = data.getValue(i,i_log)
+     var html_msg = "<label >"
+     
+     if( histo ) html_msg += "<a class='cssCellAction' href='#' data-url='"+histo+"' data-toggle='tooltip' data-placement='bottom' title='Détail'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/information15.png' style='width:24px;padding-rigth:1px'></a>"
+     if( link) html_msg += "<a class='text-warning cssCellAction' href='"+link+"' target='_blank'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/clip27.png' style='width:24px;padding-rigth:1px'></a>"
+     
+     html_msg+="</label>"
+     data.setValue(i,data.getNumberOfColumns()-1, html_msg )
+   }
+  
+  
+  //formatter = new google.visualization.PatternFormat("<label><a href='#' data-url='{1}'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a>&nbsp;<a href='{0}' target='_blank'><span class='glyphicon glyphicon-paperclip' aria-hidden='true'></span></a></label");
+  //formatter.format(data, [data.getNumberOfColumns()-2,data.getNumberOfColumns()-1],data.getNumberOfColumns()-1);
+
+  
+  
+  
+
+
+  for(var index=0;index<data.getNumberOfColumns();index++){
+    if(data.getColumnLabel(index).search('glyphicon')!=-1){
+      //  label C "glyphicon-eye-open,Mon label personnalisé",
+      var labels = data.getColumnLabel(index).split(','), label;
+      label = '<span class="glyphicon '+labels[0]+'" aria-hidden="true"></span>&nbsp;';
+      if(labels.length>1) label+= labels[1];
+      
+      data.setColumnLabel(index,label);
+      }
+    }
+  
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Si aucun élément dans la table alors afficher aucun dossier
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\*/
+  if(data.getNumberOfRows()==0) { data.addRow();/*data.setValue(0, i_statut, 'Aucun dossier')*/}
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Masquer les éventuelles colonnes pour le traitement des actions
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/ 
+  var view = new google.visualization.DataView(data);
+  //view.hideColumns([data.getNumberOfColumns()-2]);
+  view.hideColumns([i_url,i_log]);
+
+  
+  google.visualization.events.addListener(chart, 'ready', myReadyHandler);
+  chart.draw(view, options);
+  
+  /*
+  
+  REGLES D'AJUSTEMENT DES COLONNES
+  */
+  $('#id_table2  .cssHeaderCell:contains("Code")').css('width', '10%');
+  $('#id_table2  .cssHeaderCell:contains("Statut")').css('width', '6%');
+  $('#id_table2  .cssHeaderCell:contains("Dossier")').css('width', '20%');
+  $('#id_table2  .cssHeaderCell:contains("Emission")').css('width', '10%');
+  $('#id_table2  .cssHeaderCell:contains("Remise")').css('width', '10%');
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Gestion des triggers Event du google Table (mise à jour action)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  //google.visualization.events.addListener(chart, 'page', myReadyHandler);
+  google.visualization.events.addListener(chart, 'sort', myReadyHandler);
+  
+  /* 
+  google.visualization.events.addListener(chart, 'select', function(){
+            var selectedItem = chart.getSelection()[0];
+            
+            if (selectedItem) {
+              var value = data.getValue(selectedItem.row,i_log);
+              
+              eventHistory(value)
+              console.log('The user selected: ' + value);
+            }
+            
+          
+  
+  });
+  */
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Applique le CSS de BOOSTRAP table
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/  
+  //$('table').removeClass('google-visualization-table-table');
+  //$('table').addClass('table table-condensed table-hover');
+  
+  
+}
+
+/*
+ 
+ GOOGLE CHART TABLE  
+ 
+   NOGO
+ 
+ */
+function handleQueryTable3(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  // Graphic A
+  var data = response.getDataTable();
+  console.log('in handleQueryTable',data)
+  
+  var chart = new google.visualization.Table(document.getElementById('id_table3'));
+  var cssClassNames = {
+                
+                tableRow:'cssTableRow',
+                oddTableRow:'cssTableRow', 
+                selectedTableRow:'cssHoverRow', 
+                hoverTableRow:'cssHoverRow', 
+                 
+                headerCell:'cssHeaderCell',
+                tableCell:'cssCell',
+                rowNumberCell:'css8'}
+                
+  var options = {
+    title: 'Dossiers NO GO'
+    //,page:'enable'
+    //,pageSize: 12
+    ,allowHtml: true
+    //,showRowNumber: true
+    ,sortAscending:false
+    ,cssClassNames: cssClassNames
+      
+  };
+  
+  
+  
+  
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Statut
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var i_statut,i_url,i_log,i_datetime=[];
+  for(var i=0;i<data.getNumberOfColumns();i++){
+      if(data.getColumnLabel(i)=='Statut') i_statut = i;
+      if(data.getColumnLabel(i)=='url') i_url = i;
+      if(data.getColumnLabel(i)=='log') i_log = i;
+      if(data. getColumnType(i)=='datetime') i_datetime.push(i);
+      if(data.getColumnLabel(i).match('Emission')) options.sortColumn = i;
+      
+  }
+  var formatter = new google.visualization.PatternFormat('<span class="label {0}" data-html="{0}">&nbsp;</span>');
+  formatter.format(data, [i_statut],i_statut);
+  
+  /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme des colonnes datetime
+  /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/*/
+  var formatter_short = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy'});
+  i_datetime.forEach(function(element,index){formatter_short.format(data, element);})
+  
+   /*
+  Mise en place des tooltip sur les champs string
+  */
+  formatter = new google.visualization.PatternFormat('<span  data-toggle="tooltip" data-placement="bottom" title="{0}">{0}</span>');
+  formatter.format(data, [1],1);
+  formatter.format(data, [2],2);
+  formatter.format(data, [3],3);
+  formatter.format(data, [4],4);
+  
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Mise en forme de la colonne Action ( détail historique, lien folder google drive)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  data.addColumn('string', 'Actions');
+   for(var i=0;i<data.getNumberOfRows();i++){
+     var link = data.getValue(i,i_url) , histo = data.getValue(i,i_log)
+     var html_msg = "<label >"
+     
+     if( histo ) html_msg += "<a class='cssCellAction' href='#' data-url='"+histo+"' data-toggle='tooltip' data-placement='bottom' title='Détail'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/information15.png' style='width:24px;padding-rigth:1px'></a>"
+     if( link) html_msg += "<a class='text-warning cssCellAction' href='"+link+"' target='_blank'><img src='https://raw.githubusercontent.com/eremysqli/sqli/master/images/clip27.png' style='width:24px;padding-rigth:1px'></a>"
+     
+     html_msg+="</label>"
+     data.setValue(i,data.getNumberOfColumns()-1, html_msg )
+   }
+  
+  
+  //formatter = new google.visualization.PatternFormat("<label><a href='#' data-url='{1}'><span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span></a>&nbsp;<a href='{0}' target='_blank'><span class='glyphicon glyphicon-paperclip' aria-hidden='true'></span></a></label");
+  //formatter.format(data, [data.getNumberOfColumns()-2,data.getNumberOfColumns()-1],data.getNumberOfColumns()-1);
+
+  
+  
+  
+
+
+  for(var index=0;index<data.getNumberOfColumns();index++){
+    if(data.getColumnLabel(index).search('glyphicon')!=-1){
+      //  label C "glyphicon-eye-open,Mon label personnalisé",
+      var labels = data.getColumnLabel(index).split(','), label;
+      label = '<span class="glyphicon '+labels[0]+'" aria-hidden="true"></span>&nbsp;';
+      if(labels.length>1) label+= labels[1];
+      
+      data.setColumnLabel(index,label);
+      }
+    }
+  
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Si aucun élément dans la table alors afficher aucun dossier
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\*/
+  if(data.getNumberOfRows()==0) { data.addRow();/*data.setValue(0, i_statut, 'Aucun dossier')*/}
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Masquer les éventuelles colonnes pour le traitement des actions
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/ 
+  var view = new google.visualization.DataView(data);
+  //view.hideColumns([data.getNumberOfColumns()-2]);
+  view.hideColumns([i_url,i_log]);
+
+  
+  google.visualization.events.addListener(chart, 'ready', myReadyHandler);
+  chart.draw(view, options);
+  
+  /*
+  
+  REGLES D'AJUSTEMENT DES COLONNES
+  */
+  $('#id_table3  .cssHeaderCell:contains("Code")').css('width', '10%');
+  $('#id_table3  .cssHeaderCell:contains("Statut")').css('width', '6%');
+  $('#id_table3  .cssHeaderCell:contains("Dossier")').css('width', '20%');
+  $('#id_table3  .cssHeaderCell:contains("Emission")').css('width', '10%');
+  $('#id_table3  .cssHeaderCell:contains("Remise")').css('width', '10%');
+
+/*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+  Gestion des triggers Event du google Table (mise à jour action)
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+  //google.visualization.events.addListener(chart, 'page', myReadyHandler);
+  google.visualization.events.addListener(chart, 'sort', myReadyHandler);
+  
+  
+}
+
+function myReadyHandler(){
+    /* mise en écoute sur les l'accès aux liens data-url
+       Ce handler est remit à jour à chaque réorganisation du tableau
+    */
+    
+    $('a[data-url]').click(function(){
+                var log = JSON.parse($(this).attr('data-url'));
+                
+                if(log){ 
+                
+                var html='';
+                for(var i=0;i<log.length;i++){
+                html+=addtimeline(log[i]);
+                }
+                $('#historicalModal ul').html(html);
+                
+                $('#historicalModal').modal();
+                }
+              })
+              
+    
+}
+
+function eventHistory(e){
+   console.log('click:',e);
+  /* 
+   var log = JSON.parse(e);
+   console.log('eventHistory:',log);
+   if(log){ 
+   
+   var html='';
+   for(var i=0;i<log.length;i++){
+   html+=addtimeline(log[i]);
+   }
+   $('#historicalModal ul').html(html);
+   
+   $('#historicalModal').modal();
+   }
+    */
+}
+
+
+
+function addtimeline( o, inverse){
+    var bull;
+      
+    switch(o.state){
+      case 'EN ATTENTE': bull ='<li>';bull+='<div class="timeline-badge info">';
+      bull+='<i class="glyphicon glyphicon-check"></i></div>';
+      break;
+      
+      case 'EN COURS':bull ='<li>';bull+='<div class="timeline-badge info">';
+      bull+='<i class="glyphicon glyphicon-repeat"></i></div>';
+      break;
+      
+      
+      case 'RELANCE':bull='<li class="timeline-inverted">';bull+='<div class="timeline-badge warning">';
+        
+        bull+='<i class="glyphicon glyphicon-refresh"></i></div>';
+        break;
+      
+      case 'GO':bull='<li class="timeline-inverted">';bull+='<div class="timeline-badge success">';
+      bull+='<i class="glyphicon glyphicon-thumbs-up"></i></div>';break;
+      
+      case 'NOGO':bull='<li class="timeline-inverted">';bull+='<div class="timeline-badge danger">';
+      bull+='<i class="glyphicon glyphicon-thumbs-down"></i></div>';break;
+      
+      default: bull='<li class="timeline-inverted">';bull+='<div class="timeline-badge primary">';bull+='<i class="glyphicon glyphicon-info-sign"></i></div>';
+    
+    
+    }
+    
+    
+    bull+='      <div class="timeline-panel">';
+    bull+='<div class="timeline-heading">';
+    bull+='<h4 class="timeline-title">'+o.operation+'</h4>';
+    bull+='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> '+$.format.date(o.date,'d MMMM yyyy h:mm p')+' by '+o.user+'</small></p>';
+    bull+='</div>';
+    bull+='<div class="timeline-body">';
+    if(o.comment!==undefined)
+       bull+=' <p>'+objToString(o.comment)+'</p>';
+    bull+=' </div>';
+    bull+='</div>';
+    bull+='</li>';
+
+    return bull;
+    
+ }
+ 
+ function objToString (obj) {
+    var str = '';
+    
+    for (var p in obj) {
+       
+        if (obj.hasOwnProperty(p)) {
+            if(typeof obj[p] == 'object') str += objToString(obj[p]);
+            else {str += '<i>'+p + '</i> : ' + obj[p] + '<br>';}
+        }
+    }
+    return str;
+}
+
+
+    
+    $(function(){
+     console.log('ready');
+     $('#contact').on('click',function(){ $('#contactModal').modal({
+          backdrop:false,
+          }); });
+     
+     google.setOnLoadCallback(drawTable);
+     $('[data-toggle="tooltip"]').tooltip();
+     
+     
+    
+    
+    });
+</script>
+    

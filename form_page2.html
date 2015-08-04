@@ -1,0 +1,144 @@
+<script type="text/javascript">
+  // IMPORTANT: Replace the value for DEVELOPER_KEY with the API key obtained
+  // from the Google Developers Console.
+  var DEVELOPER_KEY = 'AIzaSyARBZDBNiiHoFu-TPPqe_0-gpfxspKE2ts';
+  var DIALOG_DIMENSIONS = {width: 600, height: 425};
+  var pickerApiLoaded = false;
+
+  /**
+   * Loads the Google Picker API.
+   */
+  gapi.load('picker', {'callback': function() {
+    pickerApiLoaded = true;
+  }});
+
+  
+
+  /**
+   * Creates a Picker that can access the user's spreadsheets. This function
+   * uses advanced options to hide the Picker's left navigation panel and
+   * default title bar.
+   *
+   * @param {string} token An OAuth 2.0 access token that lets Picker access the
+   *     file type specified in the addView call.
+   */
+  function createPicker(token) {
+    console.log('createPicker');
+    
+    if (pickerApiLoaded && token) {
+      var picker = new google.picker.PickerBuilder()
+          // Instruct Picker to display only spreadsheets in Drive. For other
+          // views, see https://developers.google.com/picker/docs/#otherviews
+          //.addView(google.picker.ViewId.SPREADSHEETS)
+          // Hide the navigation panel so that Picker fills more of the dialog.
+          .enableFeature(google.picker.Feature.NAV_HIDDEN)
+          // Hide the title bar since an Apps Script dialog already has a title.
+          //.hideTitleBar()
+          .setTitle('Sélectionnez tous vos documents.')
+          .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+          .setOAuthToken(token)
+          .setDeveloperKey(DEVELOPER_KEY)
+          .addView(new google.picker.DocsUploadView())
+          .setOrigin('https://script.google.com')
+          .setCallback(pickerCallback)
+          // Instruct Picker to fill the dialog, minus 2 pixels for the border.
+          //.setSize(DIALOG_DIMENSIONS.width - 2,
+          //    DIALOG_DIMENSIONS.height - 2)
+          .build();
+      picker.setVisible(true);
+         
+    } else {
+      showError('Unable to load the file picker.');
+    }
+  }
+
+  /**
+   * A callback function that extracts the chosen document's metadata from the
+   * response object. For details on the response object, see
+   * https://developers.google.com/picker/docs/result
+   *
+   * @param {object} data The response object.
+   */
+  function pickerCallback(data) {
+    var name=[],Ids=[],action = data[google.picker.Response.ACTION];
+    if (action == google.picker.Action.PICKED) {
+      
+      var docs = data[google.picker.Response.DOCUMENTS];
+      for(var index=0;index<docs.length;index++){
+        Ids.push(docs[index][google.picker.Document.ID]);
+        name.push('<small class="help-block"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span><a href="'+
+                    docs[index][google.picker.Document.URL]+'" target="_blank"> '+
+                    docs[index][google.picker.Document.NAME]+' </a></small>');
+        
+
+      }
+      //var id = doc[google.picker.Document.ID];
+      //var url = doc[google.picker.Document.URL];
+      //var title = doc[google.picker.Document.NAME];
+      document.getElementById('badge_files').innerHTML =docs.length;
+      document.getElementById('drive_id_files').innerHTML =Ids.join();
+      document.getElementById('name_file').innerHTML =name.join('');
+    } else if (action == google.picker.Action.CANCEL) {
+      document.getElementById('result').innerHTML = 'Picker canceled.';
+    }
+  }
+
+  /**
+   * Displays an error message within the #result element.
+   *
+   * @param {string} message The error message to display.
+   */
+  function showError(message) {
+    document.getElementById('result').innerHTML = 'Error: ' + message;
+  }
+</script> 
+<fieldset>
+ <form id="form_page2" class=" well " style="display:none"  >  <!--Début du Formulaire 2 -->
+       
+         <legend>Texte de votre message qui sera envoyé à PARIS.AVV</legend>
+         <div class="clearfix form-group">
+            <textarea id="mail" type="textarea" class="form-control" rows="7" ></textarea>
+            <small class="help-block">Vous pouvez utiliser les balises HTML pour une mise forme de votre le message(ex.&lt;h2&gt;Lorem&lt;/h2&gt; &lt;b&gt;ipsum&lt;/b&gt; dolor &lt;u&gt;sit&lt;/u> amet)</small>
+            
+            <div class="row"> 
+              <div class="col-sm-6">
+                <label class="control-label" for="filebutton" data-toggle="tooltip" data-placement="top" title="On peut associer des PJ(les documents de l’AO) qui seront stockés dans un GDrive">Pièces jointes:</label>
+                
+                <div class="bootstrap-filestyle input-group">
+                  <span class="group-span-filestyle " tabindex="0">
+                  <button for="filestyle-0" class="btn btn-default" type="button">
+                  <span class="glyphicon glyphicon-folder-open"></span>
+                  
+                  <span class="buttonText">&nbsp;Associer vos fichiers</span>
+                  <span id="badge_files" class="badge"></span>
+                  </button>
+                  </span>
+                </div>
+               <div id="drive_id_files" style="display:none"></div>
+                
+              </div>
+              
+            
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="control-label" id="name_file">
+                  
+                </label>
+                
+              </div>
+            
+            </div>
+           
+             <div class="row">
+               <div class="col-sm-offset-5 col-sm-7">
+                  <button id="btn_previous" class="btn " type="button"><span class="glyphicon glyphicon-menu-left"></span> Précédent</button>
+                  <button id="btn_visualize" class="btn " type="button"><span class="glyphicon glyphicon-envelope"></span>&nbsp;Prévisualiser</button>
+                  <button type="submit" id="myButton" data-loading-text="Sending..." class="pull-right btn btn-primary" autocomplete="off">Envoyer sur paris.avv&nbsp;<span class="glyphicon glyphicon-share-alt"></span></button>
+               </div>
+             </div>
+         
+         </div>
+       
+</form>   <!--Fin du Formulaire 2 -->
+</fieldset>

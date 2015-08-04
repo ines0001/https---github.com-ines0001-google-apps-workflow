@@ -1,0 +1,166 @@
+<!-- jQuery -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    
+    <script>
+    google.load("visualization", "1.1", {packages:['corechart','table']});
+
+function drawTable() {
+     var opts = {sendMethod: 'auto'}, set_query, query;
+     
+     
+     google.script.run
+                .withSuccessHandler(function(values){ 
+                 
+                   set_query = encodeURIComponent(values[1]);
+                   console.log(set_query);
+                   query = new google.visualization.Query(
+                   'https://spreadsheets.google.com/tq?tq='+set_query+'&key=<?=clsid?>&gid=2122602018',opts);
+                  
+                   query.send(handleQueryGraph1);
+                   
+                   set_query = encodeURIComponent(values[2]);
+                   console.log(set_query);
+                   query = new google.visualization.Query(
+                   'https://spreadsheets.google.com/tq?tq='+set_query+'&key=<?=clsid?>&gid=2122602018',opts);
+                  
+                   query.send(handleQueryGraph2);
+                   
+                   
+                   
+                })
+                .withFailureHandler(function(e){
+                  console.log('Exception'+e.message);     
+                })
+                .enumParams('Dashboard table_synthese');
+     
+      
+    };
+
+
+
+
+/*
+
+GOOGLE PIE CHART
+
+Fenêtre intégrée à la page Dashboard
+
+*/
+
+function handleQueryGraph1(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  // Graphic A
+  var data = response.getDataTable();
+  
+  
+  var chart = new google.visualization.LineChart(document.getElementById('id_graph1'));
+  
+  var options = {
+    legend: {position:'none'},
+    chartArea:{left:2,top:2,width:String(data.getNumberOfRows()*100/12)+'%',height:'100%'},
+    crosshair:{orientation:'vertical',
+               color:'gray', 
+               opacity:0.5,
+               trigger:'both',
+               selected: { color: '#3bc', opacity: 0.8 },
+               },
+    
+    vAxis: {
+      viewWindowMode:'maximized',
+      gridlines: {
+        color: 'transparent'},
+      baselineColor: 'transparent',
+  
+      },
+    hAxis: {
+      gridlines: {
+        color: 'transparent'},
+        baselineColor: 'transparent',
+      },
+      
+    
+    backgroundColor : 'transparent',
+    colors:['red'],
+    
+    focusTarget:'category',
+    
+    tooltip:{textStyle: {color: 'gray',fontSize:12,bold:false}, showColorCode: false},
+    
+    pointsVisible: true,
+    pointSize: 10,
+    pointShape: 'square',
+    dataOpacity:0.5,
+    lineWidth:1.2,
+   
+    
+    
+  };
+  
+  chart.draw(data, options);
+  
+ 
+  }
+  
+/*
+
+GOOGLE PIE CHART
+
+Fenêtre intégrée à la page Dashboard
+
+*/
+
+
+function handleQueryGraph2(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  
+  
+  // Graphic A
+  var data = response.getDataTable();
+  if( data.getNumberOfColumns()>2) {alert('Error in query : getNumberOfColumns()>2');return;}
+  
+  
+  n   = data.getNumberOfRows(),
+  sum = 0;
+  while(n--)
+  sum += data.getValue(n,1);
+  
+  data.addRow(['transparent',sum]);
+  console.log("total:",sum);
+  
+  var chart = new google.visualization.PieChart(document.getElementById('id_graph2'));
+  
+  var options = {
+    legend: {position:'none'},
+    chartArea:{left:2,top:2,width:'95%',height:'95%'},
+    width: 300,
+    height: 300,
+    pieHole: 0.6,
+    pieStartAngle: 90,
+    pieSliceText:'none',
+  
+    reverseCategories:true,
+    pieSliceTextStyle: {
+      color: 'black',
+    },
+    slices: {1: {color: 'gray'}, 2: {color: 'lightgrey'},0: {color: 'transparent'}},
+    
+  };
+  
+  chart.draw(data, options);
+  
+  $('#value_bloc2').html('<h3>GO</br>'+parseInt((data.getValue(0,1)/sum)*100)+'%</h3>');    
+ 
+  }

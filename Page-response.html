@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<!-- EXEMPLE DE STYLE DE BOITE A OPTION : http://hostbillapp.com/feature/triple_box/ -->
+
+<!--?!= include('bootstrap_block'); ?-->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Appel de l'api google drive -->
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=onApiLoad"></script>
+<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css"-->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/cosmo/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css">
+
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/css/datepicker3.min.css">
+
+<!-- Custom CSS Responsive-->
+<!--?!=HtmlService.createHtmlOutputFromFile('bootstrap-responsive').getContent(); ?-->
+
+<style type="text/css">
+
+ 
+ [class*="col -"] {
+ background-color: lightgreen;
+ border: 1px solid black;
+ border-radius: 6px;
+ line-height: 40px;
+ 
+
+}
+ 
+ .jumbotron {
+    padding: 0.5em 0.6em;
+    <!--font-size: 1.8em; -->
+  }
+ 
+  #select_response .glyphicon {
+    
+    font-size: 2em;
+  }
+ 
+ body{ 
+    
+    padding-top: 70px;
+    padding-bottom: 70px;
+    }
+ 
+ .footer {
+  
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+.pp9-police{
+  
+   font-weight: bold;
+   font-family: 'Lucida Caligraphy'; font-size:13pt;
+   text-align: center;
+ 
+ }
+ .pp9-border-plein{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 1px solid white; 
+   color: black;
+   padding: 2px 6px 1px 6px;
+   background: white;
+   margin-right: 1px;
+   
+ }
+ .pp9-border-creux{
+   border-radius: 50%;
+   -moz-border-radius: 50%;
+   -webkit-border-radius: 50%;
+   border: 3px solid white; 
+   
+   padding: 1px 6px 1px 6px;
+   
+   margin-right: 1px;
+   
+ }
+
+
+
+</style>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  
+    <div class="navbar-header">
+      <a class="" href="<?=ScriptApp.getService().getUrl()?>">
+        <img alt="Brand" style="background-color: white;" src="http://www.sqli-enterprise.com/files/2014/05/logo_sqli_entreprise_340x156_bg_transp1.png" height="50">
+      </a>
+    </div>
+    <p class="navbar-brand navbar-nav">
+            <span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-plein">P</span><span class="pp9-police pp9-border-creux">9</span><span class="pp9-police">{WEB}</span>
+    </p>
+    <p class="navbar-brand navbar-nav"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;<?=Session.getActiveUser().getEmail()?></p>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
+    
+      <span class="navbar-brand navbar-nav navbar-right hidden-xs hidden-sm">Formulaire de suivi d'un nouvel appel d'offre : <b>AFFECTATION</b></span>
+    
+    </div><!-- /.navbar-collapse -->
+ 
+</div>
+
+
+<div class="container">  
+
+    <div class="jumbotron" style="display:true">
+      <?var ref=reference;?>
+      <h2></h2>
+      <p>Recherche en cours...</p>
+      <div id="success" class="alert alert-success" role="alert" style="display:none"></div>
+      
+    </div>
+    <div id="error" class="alert alert-warning" role="alert" style="display:none"></div>
+    
+    <?!=HtmlService.createHtmlOutputFromFile('contact').getContent(); ?>
+   
+ <fieldset>  
+    
+    <div class="row ">
+        <div class="col-md-offset-2 col-md-8">
+        
+              <div id="select_response" class="" style="display:none" data-param_type="<?=type?>">
+                  
+                  <div class="col-md-4" data-val="true">
+                   <div class="thumbnail">
+                    <div class="caption visible-lg-block visible-md-block visible-xs-inline visible-sm-inline">
+                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                     <p class="text-uppercase hidden-xs hidden-sm">Ma Unit prend en charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                     <input data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="True">
+                    </div>
+                   </div>
+                  </div>
+                  
+                  <div class="col-md-4" data-val="false">
+                   <div class="thumbnail ">
+                    <div class="caption visible-lg-block visible-md-block visible-xs-inline visible-sm-inline">
+                     <span class="glyphicon glyphicon-random " aria-hidden="true"></span>
+                     <p class="text-uppercase hidden-xs hidden-sm">Je redirige vers une autre Unit</p>
+                     <input   data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="False">
+                    </div>
+                   </div>
+                  </div>
+                  
+                  <div class="col-md-4"  data-val="other">
+                   <div class="thumbnail">
+                    <div class="caption visible-lg-block visible-md-block visible-xs-inline visible-sm-inline">
+                     <span class="glyphicon glyphicon-user " aria-hidden="true"></span>
+                     <p class="text-uppercase hidden-xs hidden-sm">Je redirige vers un collaborateur</p>
+                     <input  data-val-required="The IsMyUnit field is required." id="IsMyUnit" name="A" type="radio" value="Other">
+                    </div>
+                   </div>
+                  </div>
+               
+              </div>
+          </div> <!-- End class class="col-md-offset-2 col-md-8" -->
+       </div>  <!-- End row -->
+       <div class="row ">
+          <div class="col-md-offset-2 col-md-8">       
+       
+              <!------------------------------------------->
+              <!-- La UNIT prend en charge cette demande -->
+              <!------------------------------------------->
+              <form id="form_true" class="form-horizontal" style="display:none"  > <!--form-horizontal-->   
+                 <div class="form-group" style="display:none">
+                   <label class="col-sm-3 control-label">Identifiant</label>
+                   <div class="col-md-9">
+                       <input id="identifiant" class="form-control" type="text" value="<?=ref?>" style="display:none" readonly>
+                   </div>
+                 </div>
+                  
+                  <div class="form-group">
+                  <label class="col-md-3 control-label" for="">Responsable de proposition</label>
+                      <div class="col-md-5">
+                        <select class="form-control" id="selectrp" required>
+                                
+                        </select>
+          
+                      </div>
+                  
+                  </div>
+                  
+                  <div class="form-group">
+                  <label class="col-md-3 control-label" for="">Date de Go/No go</label>
+                      <div class="col-md-5">
+                        <label class="input-group date">
+                          <input id="date" type="text" class="form-control" placeholder="choisir une date" required>
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        </label>
+                       </div>
+                  
+                      
+                  </div>
+                  
+                  <div class="form-group">
+                   <label for="commentaire" class="col-sm-12 col-md-3 control-label">Votre message</label>
+                   <div class="col-md-9">
+                      <textarea id="commentaire_sale" type="textarea" class="form-control" rows="7" ></textarea>
+                      <small class="help-block">Texte du mail qui sera renvoyé au commercial copie paris.avv</small>
+                   </div>
+                 </div>
+                 
+                <div class="clearfix form-group">
+                 <section class="col-md-offset-3 col-md-9">
+                    <button id="btn_val" class="pull-left btn btn-primary" type="submit" data-end-text="Terminé" data-work-text="en cours...">Valider</button>
+                 </section>
+                </div>
+              
+              </form> <!---- End Form unit True -->
+             
+             <!------------------------------------->
+             <!-- Redirection vers une autre UNIT -->
+             <!------------------------------------->
+             <form id="form_false" class="form-horizontal" style="display:none"  > <!--form-horizontal-->
+             <div class="form-group" style="display:none">
+                   <label class="col-sm-3 control-label">Identifiant</label>
+                   <div class="col-md-9">
+                       <input id="identifiant" class="form-control" type="text" value="<?=ref?>" style="display:none" readonly>
+                   </div>
+                 </div>
+                 
+                 <div class="form-group">
+                   <label class="col-md-3 control-label" for="">Unit pressentie</label>
+                   <div class="col-md-5">
+                     <select class="form-control" id="selectunit" required></select>
+                   </div>
+                 </div>
+                  
+                  <div class="form-group">
+                   <label for="commentaire" class="col-sm-12 col-md-3 control-label">Votre message</label>
+                   <div class="col-md-9">
+                      <textarea id="commentaire_manager" type="textarea" class="form-control" rows="7" ></textarea>
+                      <small class="help-block">Texte du mail qui sera renvoyé au manager de Unit copie paris.avv</small>
+                   </div>
+                 </div>
+               
+                 
+                <div class="clearfix form-group">
+                 <section class="col-md-offset-3 col-md-9">
+                    <button id="btn_val" class="pull-left btn btn-primary" type="submit" data-end-text="Terminé" data-work-text="en cours...">Valider</button>
+                 </section>
+                </div>
+               
+               
+             </form> <!--End Form Unit redispatch -->
+             
+             <!------------------------------------->
+             <!-- Redirection vers une autre DESTINAIRE -->
+             <!------------------------------------->
+             <form id="form_other" class="form-horizontal" style="display:none"  > <!--form-horizontal-->
+             <div class="form-group" style="display:none">
+                   <label class="col-sm-3 control-label">Identifiant</label>
+                   <div class="col-md-9">
+                       <input id="identifiant" class="form-control" type="text" value="<?=ref?>" style="display:none" readonly>
+                   </div>
+                 </div>
+                 
+                 <div class="form-group">
+                   <label class="col-sm-12 col-md-3 control-label" for="">Destinataire pressentie</label>
+                   <div class=" col-md-5">
+                     <div class="input-group">
+                       <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></span>
+                       <input type="text" class="form-control" id="selectunit" placeholder="login@sqli.com" required pattern="^[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}">
+                     </div>
+                   </div>
+                 </div>
+                  
+                  <div class="form-group">
+                   <label for="commentaire" class="col-sm-12 col-md-3 control-label">Votre message</label>
+                   <div class="col-md-9">
+                      <textarea id="commentaire_manager" type="textarea" class="form-control" rows="7" ></textarea>
+                      <small class="help-block">Texte du mail qui sera renvoyé au manager de Unit copie paris.avv</small>
+                   </div>
+                 </div>
+               
+                 
+                <div class="clearfix form-group">
+                 <section class="col-md-offset-3 col-md-9">
+                    <button id="btn_val" class="pull-left btn btn-primary" type="submit" data-end-text="Terminé" data-work-text="en cours...">Valider</button>
+                 </section>
+                </div>
+               
+               
+             </form> <!--End Form Unit redispatch -->
+               
+            
+         </div> <!-- div col-md-offset-2 col-md-8 -->
+       
+       </div> <!-- div row -->
+  </fieldset>     
+<div> <!-- End Container -->
+
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <p class="navbar-text pull-left ">Site Built by <a class="text-mutex" href="http://www.sqli-enterprise.com/" target="_blank" title="Lien SQLI" >sqli.com</a></p>
+    <span id="contact" class="navbar-btn btn-danger btn pull-right" title="Prendre contact" >Contact</span>
+  </div>
+</div>
+       
+       
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/bootstrap-datepicker.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.1/js/locales/bootstrap-datepicker.fr.js"></script>
+
+<script>
+$(function(){
+  console.log('Ready!:%s',$('#select_response').data('param_type'));
+  
+  $('fieldset').hide();
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  Mise en forme des options proposées en fonction du paramètre type=(small,expanded)
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\//*/
+  if($('#select_response').data('param_type')=='small'){
+      $( '#select_response div[data-val="other"]' ).hide();
+      $( '#select_response div[data-val="true"]' ).addClass('col-md-push-2');
+      $( '#select_response div[data-val="false"]' ).addClass('col-md-push-2');
+  
+  }
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  End Mise en forme des options
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\//*/
+
+  $('#form_true #date').datepicker({
+    language: "fr",
+    format: 'dd/mm/yyyy'
+    });
+    
+  google.script.run
+       .withSuccessHandler(function(ret){if(ret) $('.navbar span[class="navbar-brand navbar-nav navbar-right"]').append('<span class="glyphicon glyphicon-wrench" style="color:red" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Etat: HORS PRODUCTION"></span>');})
+       .IsIntegration();
+  
+  
+
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  Init bootstrapSwitch
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\//*/
+  $.fn.bootstrapSwitch.defaults.state = false;
+  $.fn.bootstrapSwitch.defaults.onText = 'OUI';
+  $.fn.bootstrapSwitch.defaults.offText = 'NON';
+  $.fn.bootstrapSwitch.defaults.onColor = 'success';
+
+  $("#select_response input").bootstrapSwitch();
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/
+  End Init bootstrapSwitch
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\//*/
+
+  
+  $('input[required],textarea[required],select[required]').each(function(index) {  
+
+    $(this).parent().addClass('has-error');
+    });
+  
+  $('input, textarea, select').each(function(index){
+               $(this).attr("name",$(this).attr("id"));
+               });
+  
+
+
+
+  
+  /*** CALL CONTACT *****/
+  
+  
+  $('#contact').on('click',function(){ $('#contactModal').modal({
+          backdrop:false,
+          }); });
+  
+  $('#contactModal').on('show.bs.modal', function (e) {
+     $('#contactModal #recipient-name').val(<?=Session.getActiveUser().getEmail();?>);
+     $('#contactModal #message-text').val('');
+  });
+  
+  $('#contactModal button[class="btn btn-primary"]').on('click',function(){
+      var note = $('#contactModal #message-text').val();
+      
+      if( note == '') return;
+      google.script.run.withSuccessHandler()
+        .withFailureHandler(function(e){$('#alert #error').html(e);$('#alert').modal('show');})
+        .MailContact(note);
+      $('#contactModal').modal('hide');
+   
+   });
+ 
+  
+  <!-- Effectuer un contrôle sur le statut du dossier en cours -->
+  <!-- IL FAUT VERROUILLER LA REENTRANCE APRES TRAITEMENT     -->
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\
+  Effectuer un contrôle sur le statut du dossier en cour
+  Affichage d'un message d'avertissement en conséquence
+  si &type=expanded alors forcer à true input:radio[value=Other] --> Affichage de la form associée
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/\/\/\//*/
+  google.script.run
+       .withSuccessHandler(function(values){
+                             
+                             //$('fieldset').removeAttr('disabled');
+                             $('.jumbotron h2').html('Dossier :'+values.client+'-'+values.dossier+'<br>'+'<small>Date de remise : '+values.remise+'</small>' );
+                             $('.jumbotron p').html('<p>Ce formulaire fait suite à l\'envoi d\'un nouvel appel d\'offres que <b>'+values.sale+'</b> vous a adress&eacute; derni&egrave;rement.</p>');
+                             
+                             $('.jumbotron').show();
+                             $('#select_response').show();
+                             
+                             if($('#select_response').data('param_type')!='small'){
+                                  $("#select_response input:radio[value=Other]").attr('checked',true);
+                                  $("#select_response input:radio[value=Other]").bootstrapSwitch('toggleState'); 
+                             }
+                             if(values.state!='EN ATTENTE'&&values.state!='RELANCE'){$('#error').html('<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Le dossier est d&eacute;j&agrave; affect&eacute; à un responsable de proposition !');
+                                                            $('#error').show();}
+                             else{$('fieldset').show();}
+                             //<p>Ce formulaire fait suite à l'envoi d'un nouvel appel d'offres que <b id="sale"></b> vous a adress&eacute; derni&egrave;rement.</p>
+                             })
+       .withFailureHandler(function(e){$('#error').html('<h1>Erreur!</h1><br>'+e);$('#error').show();})
+       .getInfoGeneric( <?=ref?> );
+  
+  <!-- On génère le bon formulaire en fonction du choix  -->
+  
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\
+  Get Event click bootstrapSwitch input='option'
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/\/\/\//*/
+  $('#select_response input').on('switchChange.bootstrapSwitch', function(event, state) {
+                console.log('click %s',$(this).val());
+                switch($(this).val()){
+                  case 'True':
+                        
+                        // Il est possible de le déporter à l'init afin de préalimenter cette liste
+                        google.script.run
+                            .withSuccessHandler(function(values){
+                                   console.log('True %s',values);
+                                   var rp;
+                                   for(var i=0;i<values.length;i++) rp+='<option>'+values[i]+'</option>';
+                                   $('#form_true select').html(rp)
+                                                         .prop( "selectedIndex", -1);
+                            
+                                  })
+                            .withFailureHandler(function(){$('#error').html('<h1>Error</h1> collecte datas sheet!');})
+                            .enumParams('RP');
+                        
+                        $(':input').not(':button, :submit, :radio, :hidden').val('');
+                        //$('#form_true textarea,#form_true select,#form_true input').each(function(index){ $(this).val('');});
+                        $('form:visible').hide();$('#form_true').show();
+                        break;
+                                          
+               case 'False':
+                        // Il est possible de le déporter à l'init afin de préalimenter cette liste
+                        google.script.run
+                            .withSuccessHandler(function(values){
+                                   console.log('False %s',values);
+                                   var unit;
+                                   for(var i=0;i<values.length;i++) unit+='<option value="'+values[i][1]+'">'+values[i][0]+'</option>';
+                                   $('#form_false select').html(unit)
+                                                         .prop( "selectedIndex", -1);
+                            
+                                  })
+                            .withFailureHandler(function(){$('#error').html('<h1>Error</h1> collecte datas sheet!');})
+                            .GetManagers();
+                        
+                        
+                        
+                        
+                         $(':input').not(':button, :submit, :radio, :hidden').val('');
+                         $('form:visible').hide();$('#form_false').show();
+                         break;
+                case 'Other':$('form:visible').hide();$('#form_other').show();break;
+                
+                default:/*PROBLEME*/
+                }
+          });
+  /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\//\/\/\/\
+  End Get Event click bootstrapSwitch input='option'
+  \/\/\/\/\/\/\/\/\/\/\/\\/\/\/\/\/\/\/\//*/      
+
+    
+   /** directement depuis le bouton sbumit du formulaire  */
+   
+   $("#form_false").on('submit',function(){ 
+         //Formulaire de redirection vers une autre UNIT
+         console.log($(this));
+         var message='';
+                 
+         // Message En attente
+         $('button[type="submit"]').button('work');
+         $('button[type="submit"]').attr('disabled','disabled');
+         $('fieldset').attr('disabled','disabled');
+            
+         google.script.run
+         .withSuccessHandler(function(value){
+             
+             message='<p> Votre demande a bien été complété et son traitement est en cours.</p>';
+             message+='<p> Un mail vient d\'être  envoyé à <b>'+value+'</b>, manager de Unit <b>'+$('#form_false option:selected').text()+'</b></p>';
+             message+='<p>A bientôt,</p>';
+             $('button[type="submit"]').button('end');
+             $('fieldset').hide();
+             $('#success').html(message).show();         
+         })
+         .withFailureHandler(function(e){
+             $('button[type="submit"]').button('reset');
+             $('fieldset').removeAttr('disabled');
+             $('#error').html(e.message);
+             $('#error').show();})
+         .onValidateRedirectionUnit(this);
+         
+         
+        
+         return false;
+   });
+         
+         
+   $("#form_true").on('submit',function(){ 
+         // Formulaire de prise en charge par la UNIT
+         var message='';
+        
+         
+         // Message En attente
+         $('button[type="submit"]').button('work');
+         $('button[type="submit"]').attr('disabled','disabled');
+         $('fieldset').attr('disabled','disabled');
+               
+         google.script.run
+         .withSuccessHandler(function(value){
+            
+             message='<p> Votre demande a bien été enregistrée et son traitement est en cours.</p>';
+             message+='<p> Un mail vient d\'être  envoyé à <b>'+$('#form_true select').val()+'</b>,  afin de le prévenir de son positionnement en tant que Responsable de Proposition.</p>';
+             message+='<p> Une notification de Go/Nogo à la date du <b>'+$('#form_true #date').val()+'</b> a été ajoutée dans votre agenda </p>';
+             message+='<p>Merci,</p>';
+             $('button[type="submit"]').button('end');
+             $('fieldset').hide();
+             $('#success').html(message).show();
+         })
+         .withFailureHandler(function(e){
+             $('button[type="submit"]').button('reset');
+             $('fieldset').removeAttr('disabled');
+             $('#error').html(e.message);
+             $('#error').show();
+             })
+         .onValidateForRp(this);
+         
+         
+         return false;
+   });
+   
+   $("#form_other").on('submit',function(){ 
+         //Formulaire de redirection vers une autre UNIT
+         var message='';
+        
+         // Message En attente
+         $('button[type="submit"]').button('work');
+         $('button[type="submit"]').attr('disabled','disabled');
+         $('fieldset').attr('disabled','disabled');
+            
+         google.script.run
+         .withSuccessHandler(function(value){
+             
+             message='<p> Votre demande a bien été complété et son traitement est en cours.</p>';
+             message+='<p> Un mail vient d\'être  envoyé à <b>'+value+'</b></p>';
+             message+='<p>A bientôt,</p>';
+             $('button[type="submit"]').button('end');
+             $('fieldset').hide();
+             $('#success').html(message).show();         
+         })
+         .withFailureHandler(function(e){
+             $('button[type="submit"]').button('reset');
+             $('fieldset').removeAttr('disabled');
+             $('#error').html(e.message);
+             $('#error').show();})
+         .onValidateRedirectionUnit(this);
+         return false;
+         
+   });
+  
+
+});
+</script>
+
